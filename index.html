@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Make3Lab · A conta da sua impressão 3D, fechada até o centavo</title>
-<meta name="description" content="Gestão de produção para impressão 3D FDM. Veja quanto a sua peça custa de verdade: filamento, energia, máquina, refugo medido e taxa de cada canal. Calculadora aberta, sem cadastro, e 10 vagas Founders.">
+<meta name="description" content="Gestão de produção para impressão 3D FDM. Veja quanto a sua peça custa de verdade: filamento, energia, máquina, refugo, imposto da nota e taxa de cada canal. Calculadora aberta, sem cadastro, e 10 vagas Founders.">
 <meta name="theme-color" content="#061620">
 <meta property="og:title" content="Make3Lab · A conta fecha.">
 <meta property="og:description" content="Quanto custou a última peça que você vendeu? Faça a conta aberta e entre na lista das 10 vagas Founders.">
@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700..900&family=Schibsted+Grotesk:wght@400..700&family=B612+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700..900&family=Schibsted+Grotesk:wght@400..700&family=Archivo:wght@400..700&display=swap" rel="stylesheet">
 <style>
 :root{
   --prussia-950:#061620;--prussia-900:#0C2130;--prussia-800:#12303F;--prussia-700:#1B4256;
@@ -24,10 +24,11 @@
   --nevoa-200:#D8E4EC;--nevoa-100:#EBF1F5;--papel:#F7FAFC;
   --ok:#2E9E6B;--atencao:#F2C200;--erro:#E05555;
   --tinta:#04121A;
-  /* tipografia v2, decidida em 28/09: sinalização industrial no título, grotesca de jornal no texto, fonte de painel de instrumento nos números */
+  /* tipografia v2, decidida em 28/09: sinalização industrial no título, grotesca de jornal no texto.
+     Números em Archivo com algarismo tabular desde 07/10, como no sistema (instruções v2.3). A B612 Mono saiu */
   --f-titulo:'Big Shoulders Display','Arial Narrow',system-ui,sans-serif;
   --f-texto:'Schibsted Grotesk',system-ui,sans-serif;
-  --f-dado:'B612 Mono',ui-monospace,monospace;
+  --f-dado:'Archivo',system-ui,sans-serif;
   --malha:repeating-linear-gradient(90deg,rgba(110,200,255,.10) 0 1px,transparent 1px 22px),
           repeating-linear-gradient(180deg,rgba(110,200,255,.10) 0 1px,transparent 1px 22px);
   /* movimento: só estes valores */
@@ -51,6 +52,7 @@ img,svg,canvas{display:block;max-width:100%}
 button{font-family:inherit}
 .num,.mono{font-family:var(--f-dado);font-variant-numeric:tabular-nums;white-space:nowrap;letter-spacing:-.01em}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gut)}
+[hidden]{display:none!important}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 a.sr:focus{position:fixed;left:12px;top:12px;width:auto;height:auto;clip-path:none;z-index:99;background:var(--azul-400);color:var(--tinta);padding:12px 16px;border-radius:10px;font-weight:600}
 h1,h2,h3{font-family:var(--f-titulo);color:var(--nevoa-100);margin:0;text-wrap:balance;font-weight:800}
@@ -278,32 +280,7 @@ section{position:relative}
 .sp::after{content:"";position:absolute;inset:-1px;border-radius:inherit;border:1px solid rgba(37,161,239,.7);pointer-events:none;opacity:0;transition:opacity var(--t-ui);-webkit-mask:radial-gradient(160px circle at var(--sx,50%) var(--sy,50%),#000,transparent 70%);mask:radial-gradient(160px circle at var(--sx,50%) var(--sy,50%),#000,transparent 70%)}
 .sp:hover::after,.sp:focus-within::after{opacity:1}
 
-/* demo 1 float */
-.fl{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--prussia-700);border:1px solid var(--prussia-700);border-radius:16px;overflow:hidden}
-.fl>div{background:var(--prussia-900);padding:22px 22px 24px;min-width:0}
-.fl .k{font-size:13px;color:var(--aco-400);display:flex;justify-content:space-between;gap:8px}
-.fl .v{font-size:clamp(24px,2.3vw,30px);margin-top:14px;color:var(--nevoa-100);overflow:hidden;text-overflow:ellipsis}
-.fl .bad .v{color:var(--erro)}
-.fl .good .v{color:var(--azul-400)}
-.fl .foot{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.fl .foot p{font-size:14px;color:var(--aco-400);max-width:44ch}
-.chip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-family:var(--f-dado);padding:3px 8px;border-radius:99px;border:1px solid var(--prussia-700);color:var(--aco-400);white-space:nowrap}
-@media (max-width:620px){.fl{grid-template-columns:1fr}.fl .foot .btn{width:100%}}
-
-/* demo 2 métrica */
-.met{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.met .scr{padding:18px 20px}
-.met .scr .t{font-size:12px;color:var(--aco-400);display:flex;justify-content:space-between;gap:8px}
-.met .scr .lbl{margin-top:14px;font-size:14px;color:var(--aco-400)}
-.met .scr .num{display:block;font-size:44px;color:var(--nevoa-100);margin-top:4px;transition:color var(--t-ui)}
-.met .scr .f{font-size:12px;color:var(--aco-400);margin-top:8px}
-.met.split .scr .num{color:var(--atencao)}
-.met.one .scr{border-color:var(--azul-700)}
-.met.one .scr .num{color:var(--azul-400)}
-.met+.seg{margin-top:20px}
-@media (max-width:520px){.met .scr .num{font-size:34px}.met .scr{padding:14px}}
-
-/* demo 3 snapshot */
+/* demos 1 a 4: dois documentos lado a lado e um controle */
 .snap{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .snap .doc{padding:18px 20px}
 .snap .doc .t{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--aco-400)}
@@ -349,22 +326,17 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:2px solid var(--az
 .led-foot p{font-size:14px;color:var(--aco-400);flex:1;min-width:220px}
 @media (max-width:620px){.led .h,.led .r{grid-template-columns:52px 1fr 96px;padding:11px 14px;font-size:13px;gap:8px}.led-foot .btn{width:100%}}
 
-/* demo 5 refugo */
-.ref{display:grid;grid-template-columns:1.3fr 1fr;gap:14px}
-.ref .cells{padding:18px;display:grid;grid-template-columns:repeat(15,1fr);gap:5px;align-content:start}
-.ref .cells i{aspect-ratio:1;border-radius:3px;background:var(--azul-700)}
-.ref .cells i.f{background:var(--erro)}
-.ref .cells i.new{animation:pop var(--t-cena) var(--ease-spring)}
+/* demo 3: grade de produções */
+.snap .cells{grid-column:1/-1;padding:16px;display:grid;grid-template-columns:repeat(25,1fr);gap:5px}
+.snap .cells i{aspect-ratio:1;border-radius:3px;background:var(--azul-700)}
+.snap .cells i.f{background:var(--erro)}
+.snap .cells i.new{animation:pop var(--t-cena) var(--ease-spring)}
 @keyframes pop{from{transform:scale(.2);opacity:0}}
-.ref .rd{display:flex;flex-direction:column;gap:14px}
-.ref .rd>div{padding:16px 18px}
-.ref .rd .k{font-size:13px;color:var(--aco-400)}
-.ref .rd .num{font-size:36px;color:var(--nevoa-100);display:block;margin-top:4px}
-.ref .rd .m .num{color:var(--azul-400)}
-.ref .rd .s{font-size:12px;color:var(--aco-400);margin-top:4px}
-@media (max-width:620px){.ref{grid-template-columns:1fr}.ref .rd .btn{width:100%}}
+.demo-ex{font-size:13px;color:var(--aco-400);margin-top:12px}
+@media (max-width:620px){.snap .cells{grid-template-columns:repeat(10,1fr);gap:4px;padding:12px}}
 
 /* NÚMERO HERÓI */
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:3px 8px;border-radius:99px;border:1px solid var(--prussia-700);color:var(--aco-400);white-space:nowrap}
 .hero-n{background:var(--prussia-950);border-top:1px solid var(--prussia-900)}
 .hn{display:grid;grid-template-columns:1fr;gap:28px}
 .hn-row{display:grid;grid-template-columns:1fr minmax(0,460px);gap:clamp(24px,6vw,96px);align-items:start}
@@ -544,7 +516,17 @@ table.t td.num{font-size:11px;letter-spacing:-.04em}
 .fs legend{font:600 14px/1.2 var(--f-texto);color:var(--aco-400);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;padding:0}
 .fg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 12px}
 .fg .inp{height:48px;border-radius:10px}
-.f.hide{display:none}
+.f.hide,.imp.hide{display:none}
+.dup{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dup .stp{width:32px;height:36px;margin:0 3px}
+.dup .inp input{padding:0 6px}
+.dup .inp .suf{padding-right:6px}
+.nota{display:grid;grid-template-columns:1fr 1fr;width:100%}
+.imp{margin-top:14px;max-width:260px}
+.imp label{display:block;font-size:14px;font-weight:500;color:var(--nevoa-200);margin-bottom:8px}
+.rerr{font-size:15px;color:var(--atencao);margin:14px 0 4px;line-height:1.45}
+.res.erro .price,.res.erro .sub2,.res.erro .bar,.res.erro #rLines,.res.erro .copy-b{display:none}
+@media (max-width:1023px){.inp input{font-size:16px}}
 .res{position:sticky;top:96px;background:var(--prussia-900);border:1px solid var(--prussia-700);border-radius:20px;padding:24px;overflow:hidden}
 .res::before{content:"";position:absolute;inset:0;background:var(--malha);opacity:.5;-webkit-mask:linear-gradient(180deg,#000,transparent 55%);mask:linear-gradient(180deg,#000,transparent 55%);pointer-events:none}
 .res>*{position:relative}
@@ -713,7 +695,7 @@ footer .fine a{color:var(--aco-500)}
     <div class="hud" aria-hidden="true">
       <div>Camada<b class="num" id="hLayer">000 / 210</b></div>
       <div>Z<b class="num" id="hZ">0,00 mm</b></div>
-      <div>Tempo<b class="num" id="hT">0 h 00</b></div>
+      <div>Tempo<b class="num" id="hT">0 min</b></div>
     </div>
     <div class="views" id="views" hidden>
       <div class="seg sm" role="group" aria-label="Modo de visualização da peça">
@@ -724,7 +706,7 @@ footer .fine a{color:var(--aco-500)}
       </div>
     </div>
     <div class="ticket" id="ticket">
-      <header><strong>Suporte de headset</strong><span class="pill-ex">peça de exemplo</span></header>
+      <header><strong>Vaso espiral</strong><span class="pill-ex">peça de exemplo</span></header>
       <div class="lines" id="tlines" aria-hidden="true"></div>
       <div class="tl on now now-line" id="tnow" aria-hidden="true"><span></span><span class="num"></span></div>
       <hr>
@@ -770,24 +752,24 @@ footer .fine a{color:var(--aco-500)}
 
     <div class="obj" aria-hidden="true">
       <div class="st" data-i="0">
-        <div class="file"><svg viewBox="0 0 71 100"><use href="#symp" fill="currentColor"/></svg><b>suporte-headset.3mf</b><small>arquivo de exemplo · fatiado</small></div>
+        <div class="file"><svg viewBox="0 0 71 100"><use href="#symp" fill="currentColor"/></svg><b>vaso-espiral.3mf</b><small>arquivo de exemplo · fatiado</small></div>
         <p class="drop">arraste para o Make3Lab</p>
       </div>
       <div class="st" data-i="1">
         <span class="lbl">Lido do arquivo</span>
         <div class="read">
-          <div><span>Peso<span class="auto">automático</span></span><span class="num" id="c2g">64 g</span></div>
-          <div><span>Tempo<span class="auto">automático</span></span><span class="num" id="c2t">3 h 20</span></div>
+          <div><span>Peso<span class="auto">automático</span></span><span class="num" id="c2g">85 g</span></div>
+          <div><span>Tempo<span class="auto">automático</span></span><span class="num" id="c2t">3 h 10 min</span></div>
           <div><span>Cores<span class="auto">automático</span></span><span class="num">1 · PLA</span></div>
           <div><span>Placas</span><span class="num">1</span></div>
         </div>
-        <p class="note-ex">Arquivo de exemplo. Sem fatiar, peso e tempo viram estimativa com margem declarada.</p>
+        <p class="note-ex">Arquivo, peso e tempo de exemplo. Sem fatiar, peso e tempo viram estimativa com margem declarada.</p>
       </div>
       <div class="st" data-i="2">
         <span class="lbl">Máquina</span>
         <div class="mq">
-          <p class="eq">Impressora <b id="c3v">R$ 4.000,00</b><br>÷ vida útil <b id="c3h">5.000 h</b><br>= <b id="c3r">R$ 0,80</b> por hora de impressão</p>
-          <span class="big num" id="c3p">R$ 2,67<small>nesta peça</small></span>
+          <p class="eq">Impressora <b id="c3v">R$ 4.000,00</b><br>÷ vida útil <b id="c3h">5.000 h</b><br>+ manutenção <b id="c3m">R$ 0,15</b><br>= <b id="c3r">R$ 0,95</b> por hora de impressão</p>
+          <span class="big num" id="c3p">R$ 3,01<small>nesta peça</small></span>
           <div class="gauge"><i style="--g:.66"></i></div>
         </div>
       </div>
@@ -796,7 +778,7 @@ footer .fine a{color:var(--aco-500)}
         <div class="stack" id="c4"></div>
       </div>
       <div class="st" data-i="4">
-        <span class="lbl">Preço por canal, lucro de 50% garantido</span>
+        <span class="lbl">Preço por canal, lucro de <span class="num">50%</span> garantido</span>
         <div class="chs" id="c5"></div>
       </div>
     </div>
@@ -816,94 +798,121 @@ footer .fine a{color:var(--aco-500)}
     <div class="grid">
       <nav class="idx" aria-label="Os cinco erros">
         <ol id="idx">
-          <li><a href="#e1"><span class="num">01</span>Dinheiro que arredonda sozinho</a></li>
-          <li><a href="#e2"><span class="num">02</span>Margem com duas respostas</a></li>
-          <li><a href="#e3"><span class="num">03</span>Orçamento que muda depois de enviado</a></li>
-          <li><a href="#e4"><span class="num">04</span>Lançamento apagado por cima</a></li>
-          <li><a href="#e5"><span class="num">05</span>Refugo no chute</a></li>
+          <li><a href="#e1"><span class="num">01</span>Nota fiscal fora do preço</a></li>
+          <li><a href="#e2"><span class="num">02</span>Perda cobrada duas vezes</a></li>
+          <li><a href="#e3"><span class="num">03</span>Refugo no chute</a></li>
+          <li><a href="#e4"><span class="num">04</span>Orçamento que muda sozinho</a></li>
+          <li><a href="#e5"><span class="num">05</span>Devolução que some do caixa</a></li>
         </ol>
       </nav>
       <div>
         <article class="demo" id="e1">
           <span class="tagn">Erro 01</span>
-          <h3>0,10 + 0,20 não dá 0,30 no computador.</h3>
-          <p class="d">Planilha e muito sistema guardam dinheiro em ponto flutuante, e cada centavo carrega um resto invisível. <b>O Make3Lab guarda centavo exato</b>, do orçamento ao extrato.</p>
+          <h3>Nota fiscal fora do preço.</h3>
+          <p class="d">Vendeu com nota e não colocou o imposto no preço? <b>Ele sai do seu lucro.</b></p>
           <div class="ground">
-            <div class="fl">
-              <div class="bad"><div class="k"><span>Ponto flutuante</span><span class="chip">float</span></div><div class="v mono" id="flBad">0.30000000000000004</div></div>
-              <div class="good"><div class="k"><span>Make3Lab</span><span class="chip">numeric</span></div><div class="v mono" id="flGood">R$ 0,30</div></div>
-              <div class="foot"><p id="flCap" aria-live="polite">R$ 0,10 + R$ 0,20, somados por quem guarda dinheiro de cada jeito.</p><button class="btn btn-s mag" id="flBtn" type="button">Somar 100 mil vendas de R$ 0,10</button></div>
+            <div class="snap">
+              <div class="doc live chg sp"><div class="t"><span>Imposto fora do preço</span><b>Cachepô facetado</b></div>
+                <div class="row"><span>Preço</span><span class="num" id="n1p"></span></div>
+                <div class="row"><span>Imposto da nota</span><span class="num" id="n1i"></span></div>
+                <div class="tot"><span>Lucro</span><span class="num" id="n1l"></span></div>
+                <div class="warn" id="n1w" aria-live="polite"></div>
+              </div>
+              <div class="doc sp"><div class="t"><span>Imposto no preço</span><b>Cachepô facetado</b></div>
+                <div class="row"><span>Preço</span><span class="num" id="n2p"></span></div>
+                <div class="row"><span>Imposto da nota</span><span class="num" id="n2i"></span></div>
+                <div class="tot"><span>Lucro</span><span class="num" id="n2l"></span></div>
+                <div class="lock">lucro planejado preservado</div>
+              </div>
+              <div class="slider sp"><label for="nfR">Imposto da nota <span class="num" id="nfV"></span></label><div class="range"><div class="trk"><i id="nfBar"></i></div><input id="nfR" type="range" min="1" max="15" step="1" value="4"></div></div>
             </div>
+            <p class="demo-ex">Cachepô de exemplo, <span class="num">140 g</span> e <span class="num">5 h 30 min</span>, lucro de <span class="num">50%</span> e canal de <span class="num">20%</span>.</p>
           </div>
         </article>
 
         <article class="demo" id="e2">
           <span class="tagn">Erro 02</span>
-          <h3>42% no painel, 30% no relatório. Qual você usa para dar desconto?</h3>
-          <p class="d">Uma tela divide o lucro pelo custo, a outra pelo preço. As duas estão certas e você decide errado. <b>No Make3Lab cada métrica tem uma definição e mora num lugar só.</b></p>
+          <h3>Perda cobrada duas vezes.</h3>
+          <p class="d">O fatiador já conta purga e suporte. <b>Somar perda em cima deixa sua peça cara sem motivo.</b></p>
           <div class="ground">
-            <div class="met split" id="met">
-              <div class="scr sp"><div class="t"><span>Painel</span><span class="mono">VD-0142</span></div><div class="lbl">Margem</div><span class="num" id="m1">42%</span><div class="f" id="f1">lucro ÷ custo</div></div>
-              <div class="scr sp"><div class="t"><span>Relatório do mês</span><span class="mono">VD-0142</span></div><div class="lbl">Margem</div><span class="num" id="m2">30%</span><div class="f" id="f2">lucro ÷ preço</div></div>
+            <div class="snap">
+              <div class="doc sp"><div class="t"><span>Peso do fatiador</span><b>Luminária de lua</b></div>
+                <div class="row"><span>Peso cobrado</span><span class="num" id="p1g"></span></div>
+                <div class="row"><span>Material</span><span class="num" id="p1m"></span></div>
+                <div class="tot"><span>Preço</span><span class="num" id="p1p"></span></div>
+                <div class="lock">purga e suporte já estão no peso</div>
+              </div>
+              <div class="doc live chg sp"><div class="t"><span>Fatiador mais perda</span><b>Luminária de lua</b></div>
+                <div class="row"><span>Peso cobrado</span><span class="num" id="p2g"></span></div>
+                <div class="row"><span>Material</span><span class="num" id="p2m"></span></div>
+                <div class="tot"><span>Preço</span><span class="num" id="p2p"></span></div>
+                <div class="warn" id="p2w" aria-live="polite"></div>
+              </div>
+              <div class="slider sp"><label for="pdR">Perda somada em cima <span class="num" id="pdV"></span></label><div class="range"><div class="trk"><i id="pdBar"></i></div><input id="pdR" type="range" min="0" max="30" step="1" value="15"></div></div>
             </div>
-            <div class="seg" id="metTog" role="group" aria-label="Comparar definições de margem">
-              <i class="pill"></i>
-              <button type="button" aria-pressed="true" data-v="split">Duas definições</button>
-              <button type="button" aria-pressed="false" data-v="one">Make3Lab</button>
-            </div>
+            <p class="demo-ex">Luminária de exemplo, <span class="num">95 g</span> e <span class="num">6 h 40 min</span>, lucro de <span class="num">50%</span> e canal de <span class="num">20%</span>.</p>
           </div>
         </article>
 
         <article class="demo" id="e3">
           <span class="tagn">Erro 03</span>
-          <h3>O filamento subiu. O orçamento aprovado não pode subir junto.</h3>
-          <p class="d">Sem snapshot, o documento recalcula com o preço de hoje e o que o cliente aprovou deixa de existir. <b>Aqui o custo do momento fica congelado dentro de cada orçamento.</b> Arraste o preço do PLA.</p>
+          <h3>Refugo no chute.</h3>
+          <p class="d">Falha que ninguém cobra. Peça que falha gasta material e máquina de novo. <b>Isso precisa estar no preço.</b></p>
           <div class="ground">
             <div class="snap">
-              <div class="doc live sp"><div class="t"><span>Sem snapshot</span><b class="mono">ORC-0318</b></div>
-                <div class="row"><span>Material</span><span class="num" id="s1m">R$ 7,68</span></div>
-                <div class="row"><span>Máquina e energia</span><span class="num">R$ 3,05</span></div>
-                <div class="tot"><span>Custo</span><span class="num" id="s1t">R$ 10,73</span></div>
-                <div class="warn" id="s1w" aria-live="polite"></div>
+              <div class="cells sp" id="cells" role="img" aria-label="Grade com 50 piões impressos de exemplo e as falhas marcadas"></div>
+              <div class="doc live chg sp"><div class="t"><span>Sem refugo no preço</span><b>Pião</b></div>
+                <div class="row"><span>Refugo</span><span class="num">R$ 0,00</span></div>
+                <div class="tot"><span>Preço</span><span class="num" id="r1p"></span></div>
+                <div class="warn" id="r1w" aria-live="polite"></div>
               </div>
-              <div class="doc sp"><div class="t"><span>Make3Lab</span><b class="mono">ORC-0318</b></div>
-                <div class="row"><span>Material</span><span class="num">R$ 7,68</span></div>
-                <div class="row"><span>Máquina e energia</span><span class="num">R$ 3,05</span></div>
-                <div class="tot"><span>Custo</span><span class="num">R$ 10,73</span></div>
-                <div class="lock"><svg width="14" height="14" aria-hidden="true"><use href="#i-lock"/></svg>custo congelado em 26/09 14:32</div>
+              <div class="doc sp"><div class="t"><span>Refugo no preço</span><b>Pião</b></div>
+                <div class="row"><span>Refugo</span><span class="num" id="r2r"></span></div>
+                <div class="tot"><span>Preço</span><span class="num" id="r2p"></span></div>
+                <div class="lock" id="r2s"></div>
               </div>
-              <div class="slider sp"><label for="fil">Preço do PLA hoje <span class="num" id="filv">R$ 120,00/kg</span></label><div class="range"><div class="trk"><i id="filbar"></i></div><input id="fil" type="range" min="80" max="220" step="5" value="120"></div></div>
+              <div class="slider sp"><label for="rfR">Peças que falham <span class="num" id="rfV"></span></label><div class="range"><div class="trk"><i id="rfBar"></i></div><input id="rfR" type="range" min="2" max="20" step="2" value="8"></div></div>
             </div>
+            <p class="demo-ex">Pião de exemplo, <span class="num">18 g</span> e <span class="num">50 min</span>, lucro de <span class="num">50%</span> e canal de <span class="num">20%</span>.</p>
           </div>
         </article>
 
         <article class="demo" id="e4">
           <span class="tagn">Erro 04</span>
-          <h3>Errou o valor? Estorne. Apagar é perder a história.</h3>
-          <p class="d">Quando um lançamento é editado por cima, o histórico some e o saldo de ontem muda. <b>No Make3Lab a correção entra como estorno</b> e o extrato conta a história inteira.</p>
+          <h3>Orçamento que muda sozinho.</h3>
+          <p class="d">O filamento subiu. <b>O orçamento que você já mandou continua com o custo do dia em que foi feito.</b></p>
           <div class="ground">
-            <div class="led sp" id="led">
-              <div class="h"><span>Data</span><span>Descrição</span><span>Valor</span></div>
-              <div class="r"><span class="d mono">24/09</span><span>Venda VD-0139 · Marketplace</span><span class="num in v">R$ 180,00</span></div>
-              <div class="r"><span class="d mono">25/09</span><span>Compra de PETG · 3 kg</span><span class="num v">− R$ 297,00</span></div>
+            <div class="snap">
+              <div class="doc sp"><div class="t"><span>Orçamento de ontem</span><b class="mono">ORC-0318</b></div>
+                <div class="row"><span>Material</span><span class="num" id="o1m"></span></div>
+                <div class="row"><span>Outros custos</span><span class="num" id="o1o"></span></div>
+                <div class="tot"><span>Custo</span><span class="num" id="o1c"></span></div>
+                <div class="lock"><svg width="14" height="14" aria-hidden="true"><use href="#i-lock"/></svg>custo congelado ontem às <span class="num">14:32</span></div>
+              </div>
+              <div class="doc live sp"><div class="t"><span>Custo de hoje</span><b>Porta-velas</b></div>
+                <div class="row"><span>Material</span><span class="num" id="o2m"></span></div>
+                <div class="row"><span>Outros custos</span><span class="num" id="o2o"></span></div>
+                <div class="tot"><span>Custo</span><span class="num" id="o2c"></span></div>
+                <div class="warn" id="o2w" aria-live="polite"></div>
+              </div>
+              <div class="slider sp"><label for="fil">Preço do PLA hoje <span class="num" id="filv"></span></label><div class="range"><div class="trk"><i id="filbar"></i></div><input id="fil" type="range" min="80" max="220" step="5" value="120"></div></div>
             </div>
-            <div class="led-foot"><button class="btn btn-s mag" id="ledBtn" type="button">Corrigir VD-0139 para R$ 150,00</button><p id="ledCap" aria-live="polite">O valor certo era R$ 150,00. Veja os dois jeitos de corrigir.</p></div>
+            <p class="demo-ex">Porta-velas de exemplo, <span class="num">60 g</span> e <span class="num">2 h 40 min</span>.</p>
           </div>
         </article>
 
         <article class="demo" id="e5">
           <span class="tagn">Erro 05</span>
-          <h3>Refugo não se chuta. Se mede.</h3>
-          <p class="d">Cada produção registrada vira histórico. <b>O refugo que entra no preço vem das suas falhas reais</b>, não do número que parecia razoável em janeiro.</p>
+          <h3>Devolução que some do caixa.</h3>
+          <p class="d">Venda devolvida não apaga a venda. <b>Vira um estorno que você enxerga no extrato.</b></p>
           <div class="ground">
-            <div class="ref">
-              <div class="cells sp" id="cells" role="img" aria-label="Grade com o histórico de produções de exemplo"></div>
-              <div class="rd">
-                <div class="sp"><div class="k">Digitado na planilha</div><span class="num">3%</span><div class="s">chute de janeiro</div></div>
-                <div class="m sp"><div class="k">Medido pelo Make3Lab</div><span class="num" id="refM" aria-live="polite">8%</span><div class="s" id="refS">4 falhas em 50 produções</div></div>
-                <button class="btn btn-s mag" id="refBtn" type="button">Registrar mais uma produção</button>
-              </div>
+            <div class="led sp" id="led">
+              <div class="h"><span>Data</span><span>Descrição</span><span>Valor</span></div>
+              <div class="r"><span class="d mono">03/10</span><span>Compra de PLA · <span class="num">3 kg</span></span><span class="num v">− R$ 360,00</span></div>
+              <div class="r"><span class="d mono">04/10</span><span>Venda VD-0152 · Cobra articulada</span><span class="num in v" id="dvV"></span></div>
             </div>
+            <div class="led-foot"><button class="btn btn-s mag" id="ledBtn" type="button">Registrar a devolução</button><p id="ledCap" aria-live="polite">A cobra voltou. Veja os dois jeitos de registrar.</p></div>
+            <p class="demo-ex">Cobra articulada de exemplo, <span class="num">38 g</span> e <span class="num">2 h 15 min</span>, vendida no Pix.</p>
           </div>
         </article>
       </div>
@@ -915,15 +924,15 @@ footer .fine a{color:var(--aco-500)}
 <section class="hero-n band" id="numero" aria-labelledby="hn-t">
   <div class="wrap hn">
     <div>
-      <p class="lab rv" id="hn-t">O que a taxa do canal leva quando entra multiplicando, numa peça de <span class="num" id="hnP">R$ 36,89</span></p>
-      <span class="big rv"><span id="hnBig">R$ 1,18</span></span>
+      <p class="lab rv" id="hn-t">O que a taxa do canal leva quando entra multiplicando, numa peça de <span class="num" id="hnP">R$ 42,90</span></p>
+      <span class="big rv"><span id="hnBig">R$ 1,34</span></span>
     </div>
     <div class="hn-row">
       <p class="cap2 rv">a menos em cada peça. <b>É <span class="num" id="hnPct">12%</span> do seu lucro</b> indo embora antes de chegar no Pix, sem aparecer em nenhuma linha da planilha.</p>
     <div class="math rv" aria-label="Conta completa">
-      <div class="bad"><div class="k"><span>Multiplicando pela taxa</span><span class="chip">o jeito comum</span></div><span class="eq" id="hnMul">R$ 29,51 × 1,20 = R$ 35,41</span><span class="res2" id="hnMulR">sobram R$ 28,33 depois dos 20%</span></div>
-      <div class="good"><div class="k"><span>Dividindo pela taxa</span><span class="chip">Make3Lab</span></div><span class="eq" id="hnDiv">R$ 29,51 ÷ 0,80 = R$ 36,89</span><span class="res2" id="hnDivR">sobram R$ 29,51, exatamente o planejado</span></div>
-      <p>Suporte de headset do topo da página: custo mais lucro de 50%, canal com 20%. Refaça na calculadora abaixo.</p>
+      <div class="bad"><div class="k"><span>Multiplicando pela taxa</span><span class="chip">o jeito comum</span></div><span class="eq" id="hnMul">R$ 34,06 × 1,20 = R$ 40,87</span><span class="res2" id="hnMulR">cobra R$ 40,90 e sobram R$ 32,72 depois dos 20%</span></div>
+      <div class="good"><div class="k"><span>Dividindo pela taxa</span><span class="chip">Make3Lab</span></div><span class="eq" id="hnDiv">R$ 34,06 ÷ 0,80 = R$ 42,58</span><span class="res2" id="hnDivR">cobra R$ 42,90 e sobram R$ 34,32, o planejado e mais</span></div>
+      <p>Vaso espiral de exemplo, do topo da página. Custo mais lucro de <span class="num">50%</span>, canal de <span class="num">20%</span>, preço arredondado para cima em <span class="num">,90</span>. Refaça na calculadora abaixo.</p>
     </div>
     </div>
   </div>
@@ -982,29 +991,24 @@ footer .fine a{color:var(--aco-500)}
                     <div class="card">
                       <table class="t">
                         <thead><tr><th>Produto</th><th>Origem</th><th class="r">Qtd</th><th class="r">Gramas</th><th class="r">Horas</th><th class="r">Custo un.</th><th class="r">Preço un.</th></tr></thead>
-                        <tbody>
-                          <tr><td>Suporte de headset</td><td><span class="tag az">fatiador</span></td><td class="r num">12</td><td class="r num">64 g</td><td class="r num">3 h 20</td><td class="r num" id="orcC1">R$ 19,67</td><td class="r num" id="orcP1">R$ 29,51</td></tr>
-                          <tr><td>Organizador de cabos</td><td><span class="tag az">fatiador</span></td><td class="r num">30</td><td class="r num">18 g</td><td class="r num">0 h 55</td><td class="r num">R$ 5,40</td><td class="r num">R$ 8,10</td></tr>
-                          <tr><td>Chaveiro com nome, 2 cores</td><td><span class="tag">manual</span></td><td class="r num">50</td><td class="r num">7 g</td><td class="r num">0 h 32</td><td class="r num">R$ 4,22</td><td class="r num">R$ 6,33</td></tr>
-                          <tr><td>Placa de mesa personalizada</td><td><span class="tag az">fatiador</span></td><td class="r num">4</td><td class="r num">96 g</td><td class="r num">4 h 45</td><td class="r num">R$ 26,96</td><td class="r num">R$ 40,44</td></tr>
-                        </tbody>
+                        <tbody id="orcRows"></tbody>
                       </table>
                     </div>
                     <div class="card" style="padding:12px 14px;display:flex;justify-content:space-between;font-size:12px;color:var(--aco-400)"><span>Formas de pagamento oferecidas: Pix, cartão em até 3x</span><span class="mono">validade 7 dias</span></div>
                   </div>
                   <div class="card comp" id="compCard">
                     <div class="k">Total do orçamento</div>
-                    <span class="big num">R$ 1.075,38</span>
+                    <span class="big num" id="orcTot">R$ 0,00</span>
                     <div class="bar">
-                      <i style="flex:27104;background:var(--azul-400)"></i><i style="flex:10336;background:var(--azul-600)"></i><i style="flex:23810;background:var(--aco-400)"></i><i style="flex:4138" class="hatch"></i><i style="flex:6300;background:var(--aco-600)"></i><i style="flex:35850;background:var(--azul-100)"></i>
+                      <i data-o="material" style="background:var(--azul-400)"></i><i data-o="maqen" style="background:var(--azul-600)"></i><i data-o="mao" style="background:var(--aco-400)"></i><i data-o="refugo" class="hatch"></i><i data-o="insumos" style="background:var(--aco-600)"></i><i data-o="lucro" style="background:var(--azul-100)"></i>
                     </div>
                     <div class="legend">
-                      <div><b style="background:var(--azul-400)"></b>Material<span class="num">R$ 271,04</span></div>
-                      <div><b style="background:var(--azul-600)"></b>Máquina e energia<span class="num">R$ 103,36</span></div>
-                      <div><b style="background:var(--aco-400)"></b>Setup e pós<span class="num">R$ 238,10</span></div>
-                      <div><b class="hatch"></b><span>Refugo medido <small class="mono">8%</small></span><span class="num">R$ 41,38</span></div>
-                      <div><b style="background:var(--aco-600)"></b>Insumos<span class="num">R$ 63,00</span></div>
-                      <div><b style="background:var(--azul-100)"></b>Lucro<span class="num">R$ 358,50</span></div>
+                      <div><b style="background:var(--azul-400)"></b>Material<span class="num" data-l="material"></span></div>
+                      <div><b style="background:var(--azul-600)"></b>Máquina e energia<span class="num" data-l="maqen"></span></div>
+                      <div><b style="background:var(--aco-400)"></b>Setup e pós<span class="num" data-l="mao"></span></div>
+                      <div><b class="hatch"></b><span>Refugo <small class="mono">8%</small></span><span class="num" data-l="refugo"></span></div>
+                      <div><b style="background:var(--aco-600)"></b>Insumos<span class="num" data-l="insumos"></span></div>
+                      <div><b style="background:var(--azul-100)"></b>Lucro<span class="num" data-l="lucro"></span></div>
                     </div>
                     <div class="snapb" id="snapb"><svg width="13" height="13" aria-hidden="true"><use href="#i-lock"/></svg>custo congelado em 27/09 10:14 · filamento a R$ 120,00/kg</div>
                   </div>
@@ -1014,23 +1018,23 @@ footer .fine a{color:var(--aco-500)}
               <div class="view" data-v="prod">
                 <div class="kan">
                   <div class="col"><div class="ch2"><span>Fila</span><span class="num">3</span></div>
-                    <div class="job"><div class="n">Organizador de cabos ×30</div><div class="m"><span>ORC-0321</span><span>27 h 30</span></div></div>
-                    <div class="job"><div class="n">Chaveiro com nome ×50</div><div class="m"><span>VD-0144</span><span>26 h 40</span></div></div>
-                    <div class="job"><div class="n">Placa de mesa ×4</div><div class="m"><span>ORC-0321</span><span>19 h 00</span></div></div>
+                    <div class="job"><div class="n">Pião ×30</div><div class="m"><span>ORC-0321</span><span>25 h</span></div></div>
+                    <div class="job"><div class="n">Chaveiro com nome ×50</div><div class="m"><span>VD-0144</span><span>26 h 40 min</span></div></div>
+                    <div class="job"><div class="n">Placa de mesa ×4</div><div class="m"><span>ORC-0321</span><span>19 h</span></div></div>
                   </div>
                   <div class="col"><div class="ch2"><span>Imprimindo</span><span class="num">2</span></div>
-                    <div class="job live"><div class="n">Suporte de headset ×12</div><div class="m"><span>A1 · 01</span><span>lote 7/12</span></div><div class="pb"><i style="--w:.58"></i></div></div>
-                    <div class="job live"><div class="n">Vaso geométrico ×2</div><div class="m"><span>A1 · 02</span><span>1 h 12 restante</span></div><div class="pb"><i style="--w:.71"></i></div></div>
+                    <div class="job live"><div class="n">Vaso espiral ×12</div><div class="m"><span>A1 · 01</span><span>lote 7/12</span></div><div class="pb"><i style="--w:.58"></i></div></div>
+                    <div class="job live"><div class="n">Cachepô facetado ×2</div><div class="m"><span>A1 · 02</span><span>1 h 12 min restantes</span></div><div class="pb"><i style="--w:.71"></i></div></div>
                   </div>
                   <div class="col"><div class="ch2"><span>Pós e embalagem</span><span class="num">2</span></div>
-                    <div class="job"><div class="n">Luminária articulada</div><div class="m"><span>VD-0141</span><span class="tag at">prazo amanhã</span></div></div>
-                    <div class="job"><div class="n">Caixa organizadora ×3</div><div class="m"><span>CS-0012</span><span>consignado</span></div></div>
+                    <div class="job"><div class="n">Luminária de lua</div><div class="m"><span>VD-0141</span><span class="tag at">prazo amanhã</span></div></div>
+                    <div class="job"><div class="n">Porta-velas ×3</div><div class="m"><span>CS-0012</span><span>consignado</span></div></div>
                   </div>
                   <div class="col"><div class="ch2"><span>Concluído hoje</span><span class="num">4</span></div>
-                    <div class="job"><div class="n">Suporte de celular ×6</div><div class="m"><span>VD-0140</span><span class="tag ok">ok</span></div></div>
+                    <div class="job"><div class="n">Cobra articulada ×6</div><div class="m"><span>VD-0140</span><span class="tag ok">ok</span></div></div>
                     <div class="job"><div class="n">Chaveiro com nome ×1</div><div class="m"><span>VD-0144</span><span class="tag er">falhou, reimpresso</span></div></div>
-                    <div class="job"><div class="n">Dock de fones ×2</div><div class="m"><span>VD-0139</span><span class="tag ok">ok</span></div></div>
-                    <div class="job"><div class="n">Porta-canetas ×8</div><div class="m"><span>CS-0011</span><span class="tag ok">ok</span></div></div>
+                    <div class="job"><div class="n">Pião ×2</div><div class="m"><span>VD-0139</span><span class="tag ok">ok</span></div></div>
+                    <div class="job"><div class="n">Cachepô facetado ×8</div><div class="m"><span>CS-0011</span><span class="tag ok">ok</span></div></div>
                   </div>
                 </div>
               </div>
@@ -1108,12 +1112,12 @@ footer .fine a{color:var(--aco-500)}
         <span class="eyebrow">Peças de exemplo</span>
         <h2 class="sec rv-t" id="gal-t"><span class="mask"><span>Seis peças.</span></span><span class="mask"><span>Seis contas abertas.</span></span></h2>
       </div>
-      <p class="lede rv">Passe o mouse ou toque para girar e ver a malha. <b>Gramas e tempo de exemplo, preço calculado pelas mesmas regras da calculadora</b>, com lucro de 50% e canal de 20%.</p>
+      <p class="lede rv">Toque ou passe o mouse para girar. <b>Gramas e tempo de exemplo.</b> Preço pela calculadora, com lucro de <span class="num">50%</span> e canal de <span class="num">20%</span>.</p>
     </div>
     <div class="gg" id="gg">
       <canvas id="gg-gl" aria-hidden="true"></canvas>
     </div>
-    <p class="gal-note">Geometria simplificada, gerada no navegador. Peças genéricas, sem marca de terceiros.</p>
+    <p class="gal-note">Pesos e tempos são estimativas de exemplo, não peças fatiadas. Geometria simplificada, gerada no navegador. Sem personagem, marca ou desenho de terceiros.</p>
   </div>
 </section>
 
@@ -1125,13 +1129,17 @@ footer .fine a{color:var(--aco-500)}
         <span class="eyebrow">Calculadora aberta</span>
         <h2 class="sec rv-t" id="calc-t"><span class="mask"><span>Faça a conta</span></span><span class="mask"><span>da sua peça.</span></span></h2>
       </div>
-      <p class="lede rv">Quatro números e o canal onde você vende. <b>Sem cadastro, sem e-mail.</b> Quer mexer em energia, máquina e mão de obra? A conta completa está logo abaixo, também aberta. Calculado pelas mesmas regras do sistema.</p>
+      <p class="lede rv">Cinco números e onde você vende. <b>Sem cadastro.</b></p>
     </div>
     <div class="cg">
       <form id="cf" autocomplete="off" novalidate>
         <div class="quick">
-          <div class="f" data-f="gramas"><label for="c-g">Peso da peça</label><div class="inp"><button class="stp" type="button" data-step="-5" aria-label="Diminuir 5 gramas">−</button><input id="c-g" inputmode="decimal" data-k="gramas" data-t="dec" value="64" aria-describedby="h-g e-g"><span class="suf">g</span><button class="stp" type="button" data-step="5" aria-label="Aumentar 5 gramas">+</button></div><div class="help" id="h-g">Como aparece no fatiador.</div><div class="err" id="e-g">Informe o peso em gramas, maior que zero.</div></div>
-          <div class="f" data-f="minutos"><label for="c-h">Tempo de impressão</label><div class="inp"><button class="stp" type="button" data-step="-10" aria-label="Diminuir 10 minutos">−</button><input id="c-h" inputmode="numeric" data-k="minutos" data-t="dec" value="200" aria-describedby="h-h e-h"><span class="suf">min</span><button class="stp" type="button" data-step="10" aria-label="Aumentar 10 minutos">+</button></div><div class="help" id="h-h"><span class="num" id="hmin">3 h 20</span> no fatiador</div><div class="err" id="e-h">Informe o tempo em minutos, maior que zero.</div></div>
+          <div class="f" data-f="gramas"><label for="c-g">Peso da peça</label><div class="inp"><button class="stp" type="button" data-step="-5" aria-label="Diminuir 5 gramas">−</button><input id="c-g" inputmode="decimal" data-k="gramas" data-t="dec" value="85" aria-describedby="h-g e-g"><span class="suf">g</span><button class="stp" type="button" data-step="5" aria-label="Aumentar 5 gramas">+</button></div><div class="help" id="h-g">Como aparece no fatiador.</div><div class="err" id="e-g">Informe o peso em gramas, maior que zero.</div></div>
+          <div class="f" data-f="minutos"><span class="lb2" id="t-l">Tempo de impressão</span>
+            <div class="dup" role="group" aria-labelledby="t-l" aria-describedby="h-h e-h">
+              <div class="inp"><button class="stp" type="button" data-step="-1" aria-label="Diminuir 1 hora">−</button><input id="c-th" inputmode="numeric" data-k="tH" data-t="int" value="3" aria-label="Horas"><span class="suf">h</span><button class="stp" type="button" data-step="1" aria-label="Aumentar 1 hora">+</button></div>
+              <div class="inp"><button class="stp" type="button" data-step="-10" aria-label="Diminuir 10 minutos">−</button><input id="c-tm" inputmode="numeric" data-k="tM" data-t="int" value="10" aria-label="Minutos"><span class="suf">min</span><button class="stp" type="button" data-step="10" aria-label="Aumentar 10 minutos">+</button></div>
+            </div><div class="help" id="h-h">Como aparece no fatiador.</div><div class="err" id="e-h">Informe o tempo de impressão, maior que zero.</div></div>
           <div class="f"><label for="c-kg">Preço do filamento</label><div class="inp"><span class="pre">R$</span><input id="c-kg" inputmode="numeric" data-k="precoKg" data-t="brl" value="120,00" aria-describedby="h-kg"><span class="suf">/kg</span></div><div class="help" id="h-kg">O que você pagou no rolo de 1 kg.</div></div>
           <div class="f"><label for="c-luc">Lucro sobre o custo</label><div class="inp"><button class="stp" type="button" data-step="-5" aria-label="Diminuir 5 pontos de lucro">−</button><input id="c-luc" inputmode="numeric" data-k="lucroPct" data-t="pct" value="50"><span class="suf">%</span><button class="stp" type="button" data-step="5" aria-label="Aumentar 5 pontos de lucro">+</button></div></div>
           <div class="f full"><span class="lb2" id="chan-l">Onde você vende</span>
@@ -1142,6 +1150,15 @@ footer .fine a{color:var(--aco-500)}
               <button type="button" aria-pressed="false" data-v="mlp">ML Premium</button>
             </div>
             <div class="help" id="chanHelp">Taxa de referência: 14% + R$ 4,00 por venda. Confira a do seu anúncio.</div></div>
+          <div class="f full"><span class="lb2" id="nota-l">Nota fiscal</span>
+            <div class="seg nota" id="nota" role="group" aria-labelledby="nota-l"><i class="pill"></i>
+              <button type="button" aria-pressed="true" data-v="sem">Sem nota</button>
+              <button type="button" aria-pressed="false" data-v="com">Com nota</button>
+            </div>
+            <!-- [CONFIRMAR] 4% é referência da primeira faixa do Simples Nacional, Anexo I. Peça impressa pode cair no Anexo II. Validar com contador -->
+            <!-- [CONFIRMAR] o campo aceita só percentual inteiro, pelo padrão de campo do vault. Alíquota efetiva do Simples costuma ter casa decimal -->
+            <div class="imp hide" id="impBox"><label for="c-imp">Imposto da nota</label><div class="inp"><input id="c-imp" inputmode="numeric" data-k="impostoPct" data-t="pct" value="4" aria-describedby="h-imp"><span class="suf">%</span></div><div class="help" id="h-imp">Use a alíquota que seu contador passou. No MEI, deixe 0: o imposto é o DAS fixo do mês.</div></div>
+          </div>
         </div>
 
         <details class="more" id="more">
@@ -1157,13 +1174,14 @@ footer .fine a{color:var(--aco-500)}
                 <div class="f hide" data-man><label for="c-purga">Purga do AMS</label><div class="inp"><input id="c-purga" inputmode="decimal" data-k="purgaG" data-t="dec" value="0"><span class="suf">g</span></div><div class="help">Só em peça multicolor.</div></div>
               </div>
             </fieldset>
-            <!-- [CONFIRMAR] valores padrão: impressora R$ 4.000, vida útil 5.000 h, tarifa R$ 0,95/kWh -->
+            <!-- [CONFIRMAR] valores padrão: impressora R$ 4.000, 120 W, vida útil 5.000 h. Tarifa R$ 0,881/kWh e manutenção R$ 0,15/h são os padrões do sistema -->
             <fieldset class="fs"><legend>Máquina e energia</legend>
               <div class="fg">
                 <div class="f"><label for="c-w">Potência média</label><div class="inp"><input id="c-w" inputmode="numeric" data-k="watts" data-t="dec" value="120"><span class="suf">W</span></div></div>
-                <div class="f"><label for="c-kwh">Tarifa de energia</label><div class="inp"><span class="pre">R$</span><input id="c-kwh" inputmode="numeric" data-k="kwh" data-t="brl" value="0,95"><span class="suf">/kWh</span></div><div class="help">Está na sua conta de luz.</div></div>
+                <div class="f"><label for="c-kwh">Tarifa de energia</label><div class="inp"><span class="pre">R$</span><input id="c-kwh" inputmode="decimal" data-k="kwh" data-t="dec" value="0,881"><span class="suf">/kWh</span></div><div class="help">Está na sua conta de luz.</div></div>
                 <div class="f"><label for="c-maq">Valor da impressora</label><div class="inp"><span class="pre">R$</span><input id="c-maq" inputmode="numeric" data-k="valorMaquina" data-t="brl" value="4.000,00"></div></div>
                 <div class="f"><label for="c-vida">Vida útil</label><div class="inp"><input id="c-vida" inputmode="numeric" data-k="vidaUtilH" data-t="dec" value="5000"><span class="suf">h</span></div><div class="help">Depreciação por hora de uso.</div></div>
+                <div class="f"><label for="c-man">Manutenção</label><div class="inp"><span class="pre">R$</span><input id="c-man" inputmode="numeric" data-k="manutHora" data-t="brl" value="0,15"><span class="suf">/h</span></div><div class="help">Bico, correia e mesa, por hora de impressão.</div></div>
               </div>
             </fieldset>
             <fieldset class="fs"><legend>Mão de obra, insumos e refugo</legend>
@@ -1172,7 +1190,7 @@ footer .fine a{color:var(--aco-500)}
                 <div class="f"><label for="c-pos">Pós-processamento</label><div class="inp"><input id="c-pos" inputmode="numeric" data-k="posMin" data-t="dec" value="5"><span class="suf">min</span></div></div>
                 <div class="f"><label for="c-hora">Hora de trabalho</label><div class="inp"><span class="pre">R$</span><input id="c-hora" inputmode="numeric" data-k="horaMO" data-t="brl" value="25,00"><span class="suf">/h</span></div></div>
                 <div class="f"><label for="c-ins">Insumos e embalagem</label><div class="inp"><span class="pre">R$</span><input id="c-ins" inputmode="numeric" data-k="insumos" data-t="brl" value="1,50"></div></div>
-                <div class="f"><label for="c-ref">Refugo</label><div class="inp"><input id="c-ref" inputmode="numeric" data-k="refugoPct" data-t="pct" value="8"><span class="suf">%</span></div><div class="help">No sistema vem do seu histórico.</div></div>
+                <div class="f"><label for="c-ref">Refugo</label><div class="inp"><input id="c-ref" inputmode="numeric" data-k="refugoPct" data-t="pct" value="8"><span class="suf">%</span></div><div class="help">Parte das peças que falha. Padrão do sistema: <span class="num">8%</span>.</div></div>
               </div>
             </fieldset>
             <fieldset class="fs"><legend>Taxas</legend>
@@ -1189,10 +1207,11 @@ footer .fine a{color:var(--aco-500)}
       <aside class="res" id="res" aria-labelledby="res-k">
         <div class="k"><span id="res-k">Preço de venda</span><button class="copy-b" type="button" id="copyBtn">Copiar preço</button></div>
         <span class="price num" id="rPrice" aria-live="polite">R$ 0,00</span>
-        <div class="sub2"><span>Custo <span class="num" id="rCost">R$ 0,00</span></span><span>Lucro <span class="num" id="rProfit">R$ 0,00</span></span><span>Taxas <span class="num" id="rFees">R$ 0,00</span></span></div>
+        <div class="sub2"><span>Custo <span class="num" id="rCost">R$ 0,00</span></span><span>Lucro <span class="num" id="rProfit">R$ 0,00</span></span><span>Taxas <span class="num" id="rFees">R$ 0,00</span></span><span id="rTaxW" hidden>Imposto <span class="num" id="rTax">R$ 0,00</span></span></div>
+        <p class="rerr" id="rErr" role="alert" hidden></p>
         <div class="bar" id="rBar" aria-hidden="true"></div>
         <div id="rLines"></div>
-        <p class="note">A taxa entra por divisão, <span class="mono">valor ÷ (1 − taxa)</span>. Assim o que sobra depois da comissão é exatamente o que você planejou.</p>
+        <p class="note">Taxas e imposto entram por divisão, <span class="mono">valor ÷ (1 − taxas − imposto)</span>. O preço sobe até o próximo <span class="num">,90</span>. Sobra o lucro planejado.</p>
         <div class="acts">
           <a class="btn btn-p mag" href="/espera">Quero essa conta na minha oficina <svg class="ar" aria-hidden="true"><use href="#i-ar"/></svg></a>
         </div>
@@ -1285,40 +1304,61 @@ function clamp(v,a,b){return Math.min(b,Math.max(a,v))}
 function easeOut(t){return 1 - Math.pow(1-t,4)}
 
 /* ============ MOTOR ============
-   [CONFIRMAR] motor real: motor-006.js se perdeu. Isto é reimplementação das regras de 18/09.
-   Substituir este bloco pelo motor-006.js quando ele voltar. Precisa expor precificar(entrada)
-   devolvendo os mesmos campos, em centavos inteiros.
-   [CONFIRMAR] refugo multiplicando (x 1,08) ou dividindo (÷ 0,92). Hoje multiplica.
-   [CONFIRMAR] custo de hora de máquina: R$ 0,67 e R$ 0,85 coexistem no vault. Esta página não usa nenhum dos dois:
-   calcula depreciação (valor ÷ vida útil) e energia (W × h × tarifa) separadas. */
-var REFUGO_MODO = 'multiplicar';
+   Espelho de public.fn_precificar (SQL 019, motor-019.js), lido no Supabase em 07/10.
+   Mesma ordem de conta e mesmos padrões de fn_params_preco: tarifa 0,881, hora R$ 25, refugo 8%, arredondamento em ,90.
+   Conta inteira em número cheio, arredondada só no fim, como o numeric do banco. A tela recebe centavos inteiros.
+   Refugo multiplica (x 1,08), como o 019. Incide sobre material, energia, máquina e setup.
+   Preço: sobe até o próximo ,90 em que preço − taxa do canal − taxa de pagamento − imposto cobre custo + lucro.
+   Sem arredondar, é o mesmo que (custo + lucro + taxa fixa) ÷ (1 − canal − pagamento − imposto).
+   Diferença de tela: o 019 recusa com taxas acima de 95%; esta página recusa a partir de 90%. */
 function cents(x){return Math.round((x + Number.EPSILON) * 100)}
+function r2(x){return Math.round((x + Number.EPSILON) * 100) / 100}
 var MOTOR = {
   precificar: function(p){
+    var horas = p.minutos/60, hora = p.horaMO;
+    var imp = p.comNota ? p.impostoPct/100 : 0, can = p.taxaCanalPct/100, pag = p.taxaPagPct/100;
+    var soma = can + pag + imp;
+    if (soma >= 0.9) return {erro:'taxas', somaPct:Math.round(soma*1000)/10};
     var g = p.origem === 'fatiador' ? p.gramas : p.gramas * (1 + p.perdaPct/100) + p.purgaG;
-    var horas = p.minutos/60;
-    var material = cents(g * p.precoKg / 1000);
-    var energia  = cents(p.watts/1000 * horas * p.kwh);
-    var maquina  = p.vidaUtilH > 0 ? cents(p.valorMaquina / p.vidaUtilH * horas) : 0;
-    var setup    = cents(p.setupMin/60 * p.horaMO);
-    var base = material + energia + maquina + setup;
-    var t = p.refugoPct/100, refugo;
-    if (REFUGO_MODO === 'dividir') refugo = t < 1 ? Math.round(base/(1-t) - base) : 0;
-    else refugo = Math.round(base * t);
-    var pos = cents(p.posMin/60 * p.horaMO);
-    var insumos = cents(p.insumos);
-    var custo = base + refugo + pos + insumos;
-    var lucro = Math.round(custo * p.lucroPct/100);
-    var taxa = (p.taxaCanalPct + p.taxaPagPct)/100;
-    if (taxa >= 1) return {erro:'taxas'};
-    var preco = Math.round((custo + lucro + cents(p.taxaFixa)) / (1 - taxa));
-    return {material:material,energia:energia,maquina:maquina,setup:setup,baseRefugo:base,refugo:refugo,pos:pos,insumos:insumos,custo:custo,lucro:lucro,taxas:preco-custo-lucro,preco:preco,gramasAplicadas:g};
+    var material = g / 1000 * p.precoKg;
+    var energia  = p.watts / 1000 * horas * p.kwh;
+    var maquina  = ((p.vidaUtilH > 0 ? p.valorMaquina / p.vidaUtilH : 0) + p.manutHora) * horas;
+    var setup    = p.setupMin / 60 * hora;
+    var pos      = p.posMin / 60 * hora;
+    var base     = material + energia + maquina + setup;
+    var refugo   = base * p.refugoPct/100;
+    var insumos  = p.insumos;
+    var custo    = material + energia + maquina + setup + pos + refugo + insumos;
+    var alvo     = custo * (1 + p.lucroPct/100);
+    function liq(pr){ return pr - (pr*can + p.taxaFixa) - pr*imp - pr*pag }
+    var preco = Math.ceil(Math.max(alvo, 0.9) - 0.9 - 1e-9) + 0.9, i = 0;
+    while (liq(preco) < alvo - 1e-9){ preco += 1; if (++i > 20000) return {erro:'taxas', somaPct:Math.round(soma*1000)/10} }
+    var taxaCanal = preco*can + p.taxaFixa, taxaPag = preco*pag, imposto = preco*imp; /* como fn_preco_leitura: cada taxa arredondada à parte */
+    return {
+      material:cents(material), energia:cents(energia), maquina:cents(maquina), setup:cents(setup), pos:cents(pos),
+      baseRefugo:cents(base), refugo:cents(refugo), insumos:cents(insumos), custo:cents(custo), alvo:cents(alvo),
+      lucro:cents(liq(preco) - custo), lucroPlanejado:cents(alvo - custo),
+      taxas:cents(taxaCanal) + cents(taxaPag), imposto:cents(imposto), liquido:cents(liq(preco)),
+      preco:cents(preco), gramasAplicadas:g
+    };
   }
 };
-/* [CONFIRMAR] valores padrão da peça de exemplo: impressora R$ 4.000, 5.000 h, tarifa R$ 0,95, canal 20% */
-var EXEMPLO = {origem:'fatiador',gramas:64,perdaPct:5,purgaG:0,precoKg:120,minutos:200,watts:120,kwh:0.95,valorMaquina:4000,vidaUtilH:5000,setupMin:10,posMin:5,horaMO:25,insumos:1.5,refugoPct:8,lucroPct:50,taxaCanalPct:20,taxaPagPct:0,taxaFixa:0};
+/* Peça de exemplo: vaso espiral, 85 g e 3 h 10 min. Gramas e tempo são estimativa de exemplo.
+   [CONFIRMAR] valores padrão da peça de exemplo: impressora R$ 4.000, 120 W, 5.000 h, canal 20%.
+   Manutenção de R$ 0,15/h e tarifa de R$ 0,881/kWh são os padrões do sistema (fn_semear_org e fn_params_preco). */
+var EXEMPLO = {origem:'fatiador',gramas:85,perdaPct:5,purgaG:0,precoKg:120,minutos:190,watts:120,kwh:0.881,valorMaquina:4000,vidaUtilH:5000,manutHora:0.15,setupMin:10,posMin:5,horaMO:25,insumos:1.5,refugoPct:8,lucroPct:50,taxaCanalPct:20,taxaPagPct:0,taxaFixa:0,comNota:false,impostoPct:4};
 /* taxas de referência por canal, do vault */
 var CANAIS = {direta:{n:'Venda direta',pct:0,fixa:0}, shopee:{n:'Shopee',pct:14,fixa:4}, mlc:{n:'ML Clássico',pct:14,fixa:6.75}, mlp:{n:'ML Premium',pct:19,fixa:6.75}};
+/* Peças de exemplo. Brinquedo e decoração, sem personagem nem marca de terceiros.
+   Pesos e tempos são estimativa de exemplo, não peça real fatiada. */
+var PECAS = {
+  vaso:{n:'Vaso espiral', arq:'vaso-espiral.3mf', g:85, min:190},
+  cachepo:{n:'Cachepô facetado', arq:'cachepo-facetado.3mf', g:140, min:330},
+  lua:{n:'Luminária de lua', arq:'luminaria-lua.3mf', g:95, min:400},
+  cobra:{n:'Cobra articulada', arq:'cobra-articulada.3mf', g:38, min:135},
+  piao:{n:'Pião', arq:'piao.3mf', g:18, min:50},
+  velas:{n:'Porta-velas', arq:'porta-velas.3mf', g:60, min:160}
+};
 function withP(o){var r = JSON.parse(JSON.stringify(EXEMPLO)); for (var k in o) r[k] = o[k]; return r}
 
 function brl(c){
@@ -1326,7 +1366,8 @@ function brl(c){
   var r = Math.floor(c/100).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.');
   return (neg?'− ':'') + 'R$ ' + r + ',' + String(c%100).padStart(2,'0');
 }
-function hm(min){min = Math.round(min); return Math.floor(min/60) + ' h ' + String(min%60).padStart(2,'0')}
+/* tempo sempre em horas e minutos: 3 h 20 min, 45 min, 4 h */
+function hm(min){min = Math.max(0, Math.round(min)); var h = Math.floor(min/60), m = min%60; if (!h) return m + ' min'; return m ? h + ' h ' + m + ' min' : h + ' h'}
 function fmtInt(n){return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,'.')}
 
 /* ============ NÚMERO QUE ROLA ============
@@ -1434,15 +1475,15 @@ onNav();
 /* ============ HERO: TICKET ============ */
 var R = MOTOR.precificar(EXEMPLO);
 var LINES = [
-  {k:'material', l:'Material', s:'64 g de PLA', at:0, acc:true},
+  {k:'material', l:'Material', s:EXEMPLO.gramas + ' g de PLA', at:0, acc:true},
   {k:'energia',  l:'Energia',  s:'120 W', at:0, acc:true},
   {k:'maquina',  l:'Máquina',  s:'por hora de vida', at:0, acc:true},
   {k:'setup',    l:'Setup',    s:'10 min', at:0.015},
-  {k:'refugo',   l:'Refugo',   s:'8% medido', at:0.80},
+  {k:'refugo',   l:'Refugo',   s:EXEMPLO.refugoPct + '%', at:0.80},
   {k:'pos',      l:'Pós-processamento', s:'5 min', at:0.835},
   {k:'insumos',  l:'Insumos',  s:'', at:0.865},
-  {k:'lucro',    l:'Lucro',    s:'50%', at:0.90},
-  {k:'taxas',    l:'Taxa do canal', s:'20%', at:0.935}
+  {k:'lucro',    l:'Lucro',    s:EXEMPLO.lucroPct + '%', at:0.90},
+  {k:'taxas',    l:'Taxa do canal', s:EXEMPLO.taxaCanalPct + '%', at:0.935}
 ];
 var tl = $('#tlines');
 LINES.forEach(function(L){
@@ -1473,7 +1514,7 @@ function updateTicket(p){
   ttotLbl.textContent = done ? 'Preço de venda' : (p >= 0.90 ? 'Custo mais lucro' : 'Custo até aqui');
   ttotTk.set(brl(done ? R.preco : sum));
   if (done !== lastDone){ lastDone = done; tlive.textContent = done ? 'Preço de venda da peça de exemplo: ' + brl(R.preco) : '' }
-  var layer = Math.round(pp*210), mins = Math.round(pp*200);
+  var layer = Math.round(pp*210), mins = Math.round(pp*EXEMPLO.minutos);
   hL.textContent = pad3(layer) + ' / 210';
   hZ.textContent = (pp*42).toFixed(2).replace('.',',') + ' mm';
   hT.textContent = hm(mins);
@@ -1689,9 +1730,10 @@ var capSec = $('#arquivo'), steps = $$('.step', capSec), sts = $$('.obj .st', ca
 (function fillChapter(){
   $('#c2g').textContent = EXEMPLO.gramas + ' g';
   $('#c2t').textContent = hm(EXEMPLO.minutos);
-  var rate = cents(EXEMPLO.valorMaquina / EXEMPLO.vidaUtilH);
+  var rate = cents(EXEMPLO.valorMaquina / EXEMPLO.vidaUtilH + EXEMPLO.manutHora);
   $('#c3v').textContent = brl(cents(EXEMPLO.valorMaquina));
   $('#c3h').textContent = fmtInt(EXEMPLO.vidaUtilH) + ' h';
+  $('#c3m').textContent = brl(cents(EXEMPLO.manutHora));
   $('#c3r').textContent = brl(rate);
   $('#c3p').innerHTML = brl(R.maquina) + '<small>nesta peça de ' + hm(EXEMPLO.minutos) + '</small>';
   var rows = [
@@ -1700,7 +1742,7 @@ var capSec = $('#arquivo'), steps = $$('.step', capSec), sts = $$('.obj .st', ca
     ['Máquina', R.maquina, 'background:var(--azul-600)'],
     ['Mão de obra', R.setup + R.pos, 'background:var(--aco-400)'],
     ['Insumos', R.insumos, 'background:var(--aco-600)'],
-    ['Refugo 8%', R.refugo, '', 'hatch']
+    ['Refugo ' + EXEMPLO.refugoPct + '%', R.refugo, '', 'hatch']
   ];
   var mx = Math.max.apply(null, rows.map(function(r){return r[1]}));
   $('#c4').innerHTML = rows.map(function(r){
@@ -1709,7 +1751,7 @@ var capSec = $('#arquivo'), steps = $$('.step', capSec), sts = $$('.obj .st', ca
   $('#c5').innerHTML = ['direta','shopee','mlc','mlp'].map(function(k){
     var c = CANAIS[k], r = MOTOR.precificar(withP({taxaCanalPct:c.pct, taxaFixa:c.fixa}));
     var fee = c.pct ? c.pct + '%' + (c.fixa ? ' + ' + brl(cents(c.fixa)) : '') : 'sem comissão';
-    return '<div class="ch"><b>' + c.n + '</b><span class="num">' + brl(r.preco) + '</span><small>' + fee + ' · sobra ' + brl(R.custo + R.lucro) + ' depois da taxa</small></div>';
+    return '<div class="ch"><b>' + c.n + '</b><span class="num">' + brl(r.preco) + '</span><small>' + fee + ' · sobra ' + brl(r.liquido) + ' depois da taxa</small></div>';
   }).join('');
 })();
 new IntersectionObserver(function(es){ capVisible = es[0].isIntersecting; kick() }).observe(capSec);
@@ -1745,86 +1787,110 @@ jobs.push(function(){
   return false;
 });
 
-// 1. float x numeric, soma de verdade
-var flBtn = $('#flBtn'), flBad = $('#flBad'), flGood = $('#flGood'), flCap = $('#flCap'), flRun = false, flDone = false;
-flBtn.addEventListener('click', function(){
-  if (flRun) return;
-  if (flDone){ flBad.textContent = '0.30000000000000004'; flGood.textContent = 'R$ 0,30'; flCap.textContent = 'R$ 0,10 + R$ 0,20, somados por quem guarda dinheiro de cada jeito.'; flBtn.textContent = 'Somar 100 mil vendas de R$ 0,10'; flDone = false; return }
-  flRun = true; var f = 0, c = 0, n = 0, N = 100000, step = RM ? N : 2500;
-  (function tick(){
-    for (var i=0;i<step && n<N;i++,n++){ f += 0.1; c += 10 }
-    flBad.textContent = String(f); flGood.textContent = brl(c);
-    if (n < N) return requestAnimationFrame(tick);
-    flRun = false; flDone = true;
-    flCap.textContent = 'Deveria dar 10 mil redondos. O float chegou em ' + String(f) + '. Parece nada, até o fechamento não bater por um centavo e alguém perder a tarde procurando.';
-    flBtn.textContent = 'Voltar ao começo';
-  })();
-});
-
-// 2. uma métrica, uma definição
-var met = $('#met'), metTog = $('#metTog');
-segBind(metTog, function(v){
-  met.className = 'met ' + v;
-  if (v === 'one'){ $('#m1').textContent = '30%'; $('#f1').textContent = 'lucro ÷ preço de venda'; $('#f2').textContent = 'lucro ÷ preço de venda, mesma definição' }
-  else { $('#m1').textContent = '42%'; $('#f1').textContent = 'lucro ÷ custo'; $('#f2').textContent = 'lucro ÷ preço' }
-});
-
-// 3. snapshot
-var fil = $('#fil'), filv = $('#filv'), s1m = $('#s1m'), s1t = $('#s1t'), s1w = $('#s1w'), filbar = $('#filbar');
-function onFil(){
-  var kg = +fil.value, m = cents(64*kg/1000), tot = m + 305;
-  filv.textContent = brl(kg*100) + '/kg';
-  setMoney(s1m, m); setMoney(s1t, tot);
-  filbar.style.setProperty('--f', ((kg-80)/(220-80)).toFixed(3));
-  s1m.closest('.doc').classList.toggle('chg', kg !== 120);
-  s1w.textContent = kg === 120 ? '' : 'O cliente aprovou R$ 10,73. O sistema agora mostra outro número.';
+// cada demo é uma peça da tabela de exemplo, com preço pelo motor desta página
+function peca(id, o){ var P = PECAS[id], q = {gramas:P.g, minutos:P.min}; for (var k in o) q[k] = o[k]; return MOTOR.precificar(withP(q)) }
+function slide(inp, bar, cb){
+  function f(){ var v = +inp.value; bar.style.setProperty('--f', ((v - inp.min)/(inp.max - inp.min)).toFixed(3)); cb(v) }
+  inp.addEventListener('input', f); f();
 }
-fil.addEventListener('input', onFil); onFil();
+function fmtG(g){ return (Math.round(g*10)/10).toString().replace('.',',') + ' g' }
 
-// 4. estorno
+// 1. nota fiscal fora do preço: cachepô vendido com nota, com e sem o imposto no preço
+slide($('#nfR'), $('#nfBar'), function(v){
+  var sem = peca('cachepo'), com = peca('cachepo', {comNota:true, impostoPct:v});
+  var imp = cents(sem.preco/100 * v/100), lucro = sem.lucro - imp;
+  $('#nfV').textContent = v + '%';
+  setMoney($('#n1p'), sem.preco); setMoney($('#n1i'), -imp); setMoney($('#n1l'), lucro);
+  setMoney($('#n2p'), com.preco); setMoney($('#n2i'), -com.imposto); setMoney($('#n2l'), com.lucro);
+  $('#n1w').textContent = 'Somem ' + brl(imp) + ' do lucro. É ' + Math.round(imp/sem.lucro*100) + '% dele.';
+});
+
+// 2. perda cobrada duas vezes: luminária com o peso do fatiador contra o peso com perda somada
+var LUA = PECAS.lua;
+slide($('#pdR'), $('#pdBar'), function(v){
+  var a = peca('lua'), b = peca('lua', {origem:'manual', perdaPct:v, purgaG:0});
+  $('#pdV').textContent = v + '%';
+  $('#p1g').textContent = fmtG(LUA.g); $('#p2g').textContent = fmtG(b.gramasAplicadas);
+  setMoney($('#p1m'), a.material); setMoney($('#p1p'), a.preco);
+  setMoney($('#p2m'), b.material); setMoney($('#p2p'), b.preco);
+  $('#p2g').closest('.doc').classList.toggle('chg', b.preco !== a.preco);
+  $('#p2w').textContent = b.preco > a.preco ? 'A mesma luminária fica ' + brl(b.preco - a.preco) + ' mais cara.' : '';
+});
+
+// 3. refugo: piões que falham e o preço com e sem o refugo
+var cellsEl = $('#cells');
+slide($('#rfR'), $('#rfBar'), function(v){
+  var a = peca('piao', {refugoPct:0}), b = peca('piao', {refugoPct:v}), N = 50, fails = Math.round(N*v/100), fx = {};
+  for (var k=0;k<fails;k++) fx[Math.floor((k + .5)*N/fails)] = 1;
+  cellsEl.innerHTML = Array.apply(null, Array(N)).map(function(_, i){ return '<i class="' + (fx[i] ? 'f' : 'ok') + '"></i>' }).join('');
+  cellsEl.setAttribute('aria-label', fails + ' falhas em ' + N + ' piões impressos de exemplo');
+  $('#rfV').textContent = v + '%';
+  setMoney($('#r1p'), a.preco); setMoney($('#r2r'), b.refugo); setMoney($('#r2p'), b.preco);
+  $('#r1w').textContent = fails + ' falhas em ' + N + ' piões. ' + brl(fails * b.baseRefugo) + ' em material e máquina que ninguém cobrou.';
+  $('#r2s').textContent = v + '% sobre material, energia, máquina e setup';
+});
+
+// 4. orçamento congelado: porta-velas orçado ontem, filamento mais caro hoje
+var ORC = peca('velas', {precoKg:120});
+setMoney($('#o1m'), ORC.material); setMoney($('#o1o'), ORC.custo - ORC.material); setMoney($('#o1c'), ORC.custo);
+slide($('#fil'), $('#filbar'), function(kg){
+  var h = peca('velas', {precoKg:kg});
+  $('#filv').textContent = brl(kg*100) + '/kg';
+  setMoney($('#o2m'), h.material); setMoney($('#o2o'), h.custo - h.material); setMoney($('#o2c'), h.custo);
+  $('#o2c').closest('.doc').classList.toggle('chg', kg !== 120);
+  $('#o2w').textContent = kg === 120 ? '' : 'Hoje a peça custa ' + brl(h.custo) + '. O orçamento enviado continua em ' + brl(ORC.custo) + '.';
+});
+
+// 5. devolução: a venda fica, o estorno entra
+var DEV = peca('cobra', {taxaCanalPct:0, taxaFixa:0}).preco;
+$('#dvV').textContent = brl(DEV);
 var led = $('#led'), ledBtn = $('#ledBtn'), ledCap = $('#ledCap'), ledState = 0, ledBase = led.innerHTML;
 function row(d,desc,val,cls){ return '<div class="r ' + (cls||'') + '"><span class="d mono">' + d + '</span><span>' + desc + '</span><span class="num v' + (cls==='in'?' in':'') + '">' + val + '</span></div>' }
 ledBtn.addEventListener('click', function(){
   if (ledState === 0){
-    led.insertAdjacentHTML('beforeend', row('26/09','Estorno VD-0139','− R$ 180,00','est') + row('26/09','Venda VD-0139 · valor correto','R$ 150,00','in'));
-    ledCap.textContent = 'Nada foi apagado. O extrato de 24/09 continua dizendo o que aconteceu em 24/09.';
-    ledBtn.textContent = 'Ver como seria editando por cima'; ledState = 1;
+    led.insertAdjacentHTML('beforeend', row('07/10','Estorno VD-0152 · devolução', brl(-DEV), 'est'));
+    ledCap.textContent = 'A venda de 04/10 continua no extrato. O estorno de hoje tira o valor do saldo.';
+    ledBtn.textContent = 'Ver como seria apagando a venda'; ledState = 1;
   } else if (ledState === 1){
     led.innerHTML = ledBase;
-    var v = $('.r .v', led); v.textContent = 'R$ 150,00'; v.parentNode.classList.add('old');
-    ledCap.textContent = 'O saldo de 24/09 mudou sem deixar rastro. O fechamento daquele dia deixou de bater.';
+    $('#dvV').parentNode.classList.add('old');
+    ledCap.textContent = 'Apagada, a venda some. Ninguém sabe que a cobra foi vendida, nem que voltou.';
     ledBtn.textContent = 'Voltar ao começo'; ledState = 2;
-  } else { led.innerHTML = ledBase; ledCap.textContent = 'O valor certo era R$ 150,00. Veja os dois jeitos de corrigir.'; ledBtn.textContent = 'Corrigir VD-0139 para R$ 150,00'; ledState = 0 }
+  } else { led.innerHTML = ledBase; ledCap.textContent = 'A cobra voltou. Veja os dois jeitos de registrar.'; ledBtn.textContent = 'Registrar a devolução'; ledState = 0 }
 });
 
-// 5. refugo medido
-var cellsEl = $('#cells'), refM = $('#refM'), refS = $('#refS'), refBtn = $('#refBtn');
-var hist = []; for (var hi=0;hi<50;hi++) hist.push([7,19,33,41].indexOf(hi) > -1);
-function drawCells(nw){
-  cellsEl.innerHTML = hist.map(function(f,i){ return '<i class="' + (f?'f':'ok') + (nw && i === hist.length-1 ? ' new' : '') + '"></i>' }).join('');
-  var fails = hist.filter(Boolean).length;
-  refM.textContent = Math.round(fails/hist.length*100) + '%';
-  refS.textContent = fails + ' falha' + (fails===1?'':'s') + ' em ' + hist.length + ' produções';
-}
-drawCells();
-refBtn.addEventListener('click', function(){ if (hist.length >= 75) hist.shift(); hist.push(Math.random() < 0.09); drawCells(true) });
-
-/* ============ NÚMERO HERÓI (tudo do motor) ============ */
+/* ============ NÚMERO HERÓI (tudo do motor) ============
+   Os dois jeitos sobem o preço até o próximo ,90, como o sistema. A diferença é só multiplicar ou dividir pela taxa. */
 (function(){
-  var alvo = R.custo + R.lucro, t = EXEMPLO.taxaCanalPct/100;
-  var mul = Math.round(alvo * (1 + t)), sobraMul = mul - Math.round(mul * t);
-  var sobraDiv = R.preco - Math.round(R.preco * t);
-  var diff = alvo - sobraMul, pct = Math.round(diff / R.lucro * 100);
+  var alvo = R.alvo, t = EXEMPLO.taxaCanalPct/100;
+  function ate90(c){ return (Math.ceil(Math.max(c/100, 0.9) - 0.9 - 1e-9) + 0.9) * 100 }
+  var mulBruto = cents(alvo/100 * (1 + t)), mul = Math.round(ate90(mulBruto)), sobraMul = mul - Math.round(mul * t);
+  var divBruto = cents(alvo/100 / (1 - t)), sobraDiv = R.preco - Math.round(R.preco * t);
+  var diff = alvo - sobraMul, pct = Math.round(diff / R.lucroPlanejado * 100);
   var tS = String(1+t).replace('.',','), dS = String(1-t).replace('.',',');
   if (tS.length < 4) tS += '0'; if (dS.length < 4) dS += '0';
   $('#hnP').textContent = brl(R.preco);
   $('#hnBig').textContent = brl(diff);
   $('#hnPct').textContent = pct + '%';
-  $('#hnMul').textContent = brl(alvo) + ' × ' + tS + ' = ' + brl(mul);
-  $('#hnMulR').textContent = 'sobram ' + brl(sobraMul) + ' depois dos ' + Math.round(t*100) + '%';
-  $('#hnDiv').textContent = brl(alvo) + ' ÷ ' + dS + ' = ' + brl(R.preco);
-  $('#hnDivR').textContent = 'sobram ' + brl(sobraDiv) + ', exatamente o planejado';
-  $('#orcC1').textContent = brl(R.custo); $('#orcP1').textContent = brl(alvo);
+  $('#hnMul').textContent = brl(alvo) + ' × ' + tS + ' = ' + brl(mulBruto);
+  $('#hnMulR').textContent = 'cobra ' + brl(mul) + ' e sobram ' + brl(sobraMul) + ' depois dos ' + Math.round(t*100) + '%';
+  $('#hnDiv').textContent = brl(alvo) + ' ÷ ' + dS + ' = ' + brl(divBruto);
+  $('#hnDivR').textContent = 'cobra ' + brl(R.preco) + ' e sobram ' + brl(sobraDiv) + ', o planejado e mais';
+})();
+
+/* orçamento de exemplo das telas: preço unitário pelo motor, venda direta */
+(function(){
+  var rows = [[PECAS.vaso,12,'fatiador'],[PECAS.piao,30,'fatiador'],[{n:'Chaveiro com nome, 2 cores',g:7,min:32},50,'manual'],[{n:'Placa de mesa personalizada',g:96,min:285},4,'fatiador']];
+  var tot = 0, comp = {material:0,maqen:0,mao:0,refugo:0,insumos:0,lucro:0};
+  $('#orcRows').innerHTML = rows.map(function(x){
+    var P = x[0], q = x[1], r = MOTOR.precificar(withP({gramas:P.g, minutos:P.min, origem:x[2], taxaCanalPct:0, taxaFixa:0}));
+    tot += r.preco*q;
+    comp.material += r.material*q; comp.maqen += (r.maquina + r.energia)*q; comp.mao += (r.setup + r.pos)*q; comp.refugo += r.refugo*q; comp.insumos += r.insumos*q; comp.lucro += r.lucro*q;
+    return '<tr><td>' + P.n + '</td><td><span class="tag' + (x[2] === 'fatiador' ? ' az' : '') + '">' + x[2] + '</span></td><td class="r num">' + q + '</td><td class="r num">' + P.g + ' g</td><td class="r num">' + hm(P.min) + '</td><td class="r num">' + brl(r.custo) + '</td><td class="r num">' + brl(r.preco) + '</td></tr>';
+  }).join('');
+  $('#orcTot').textContent = brl(tot);
+  $$('#compCard .bar i').forEach(function(i){ i.style.flex = String(comp[i.dataset.o]) });
+  $$('#compCard [data-l]').forEach(function(e){ e.textContent = brl(comp[e.dataset.l]) });
 })();
 
 /* ============ TELAS ============ */
@@ -1907,21 +1973,14 @@ jobs.push(function(){
 });
 
 /* ============ GALERIA: um renderer, recortado por card ============ */
-var PIECES = [
-  {id:'suporte', n:'Suporte em L', g:38, min:95},
-  {id:'gancho', n:'Gancho de parede', g:12, min:40},
-  {id:'caixa', n:'Caixa com tampa', g:86, min:260},
-  {id:'engrenagem', n:'Engrenagem', g:21, min:70},
-  {id:'caneta', n:'Porta-caneta', g:54, min:180},
-  {id:'clip', n:'Clipe de cabo', g:4, min:14}
-];
+var PIECES = ['vaso','cachepo','lua','cobra','piao','velas'].map(function(id){ var P = PECAS[id]; return {id:id, n:P.n, g:P.g, min:P.min} });
 var ICONS = {
-  suporte:'<path d="M20 10v60h50" fill="none" stroke="currentColor" stroke-width="10"/>',
-  gancho:'<path d="M30 10v40a20 20 0 0 0 40 0v-8" fill="none" stroke="currentColor" stroke-width="9"/>',
-  caixa:'<rect x="12" y="34" width="66" height="40" fill="none" stroke="currentColor" stroke-width="8"/><rect x="8" y="16" width="74" height="10" fill="currentColor"/>',
-  engrenagem:'<circle cx="45" cy="45" r="24" fill="none" stroke="currentColor" stroke-width="12" stroke-dasharray="9 6"/><circle cx="45" cy="45" r="8" fill="currentColor"/>',
-  caneta:'<path d="M22 20h46l-6 56H28z" fill="none" stroke="currentColor" stroke-width="8"/>',
-  clip:'<path d="M60 26a18 18 0 1 0 0 38" fill="none" stroke="currentColor" stroke-width="10"/>'
+  vaso:'<path d="M32 12h26c-2 14 8 22 8 38s-10 28-21 28-21-12-21-28 10-24 8-38z" fill="none" stroke="currentColor" stroke-width="7"/>',
+  cachepo:'<path d="M14 24h62l-10 52H24z" fill="none" stroke="currentColor" stroke-width="7"/><path d="M33 24l-4 52M57 24l4 52" stroke="currentColor" stroke-width="5"/>',
+  lua:'<circle cx="45" cy="40" r="26" fill="none" stroke="currentColor" stroke-width="7"/><circle cx="37" cy="34" r="5" fill="currentColor"/><circle cx="53" cy="47" r="4" fill="currentColor"/><rect x="31" y="70" width="28" height="8" fill="currentColor"/>',
+  cobra:'<path d="M12 56c10-20 20-20 30 0s20 20 30 0" fill="none" stroke="currentColor" stroke-width="12" stroke-dasharray="8 3"/>',
+  piao:'<path d="M45 82L18 44l8-10h38l8 10z" fill="none" stroke="currentColor" stroke-width="7"/><path d="M45 34V10" stroke="currentColor" stroke-width="8"/>',
+  velas:'<path d="M14 40h62v32H14z" fill="none" stroke="currentColor" stroke-width="7"/><path d="M45 34V16" stroke="currentColor" stroke-width="6"/>'
 };
 var gg = $('#gg'), ggCanvas = $('#gg-gl');
 PIECES.forEach(function(P){
@@ -1956,13 +2015,36 @@ function initGallery(){
   function lights(s){ s.add(new T.HemisphereLight(0xC6E7FB, 0x061620, 0.8)); var k = new T.DirectionalLight(0xEBF1F5, 1.2); k.position.set(3,5,4); s.add(k) }
   var solid = function(){ var m = new T.MeshStandardMaterial({color:0x8FA3B0, roughness:.6, metalness:.05}); m.color.convertSRGBToLinear(); return m };
   function ext(shape, depth){ var g = new T.ExtrudeGeometry(shape, {depth:depth, bevelEnabled:true, bevelThickness:.03, bevelSize:.03, bevelSegments:2, curveSegments:18}); g.center(); return g }
+  function lathe(pts, seg){ return new T.LatheGeometry(pts.map(function(p){ return new T.Vector2(p[0], p[1]) }), seg) }
+  function flat(g){ g = g.toNonIndexed(); g.computeVertexNormals(); return g }
   var geos = {
-    suporte: function(){ var s = new T.Shape(); s.moveTo(-.8,-.7); s.lineTo(.9,-.7); s.lineTo(.9,-.45); s.lineTo(-.55,-.45); s.lineTo(-.55,.9); s.lineTo(-.8,.9); s.lineTo(-.8,-.7); return [ext(s,.7)] },
-    gancho: function(){ var c = new T.CatmullRomCurve3([new T.Vector3(0,1,0),new T.Vector3(0,0,0),new T.Vector3(0,-.55,0),new T.Vector3(.2,-.85,0),new T.Vector3(.55,-.8,0),new T.Vector3(.7,-.5,0),new T.Vector3(.7,-.3,0)]); var t = new T.TubeGeometry(c, 60, .1, 14, false); var b = new T.BoxGeometry(.5,.7,.12); b.translate(0,.75,-.12); return [t,b] },
-    caixa: function(){ var base = new T.BoxGeometry(1.5,.7,1.1); base.translate(0,-.25,0); var lid = new T.BoxGeometry(1.6,.14,1.2); lid.translate(0,.42,0); return [base,lid] },
-    engrenagem: function(){ var s = new T.Shape(), n = 12, ro = .95, ri = .76; for (var i=0;i<n*4;i++){ var a = i/(n*4)*Math.PI*2, r = (i%4 < 2) ? ro : ri; if (i === 0) s.moveTo(Math.cos(a)*r, Math.sin(a)*r); else s.lineTo(Math.cos(a)*r, Math.sin(a)*r) } var h = new T.Path(); h.absarc(0,0,.24,0,Math.PI*2,true); s.holes.push(h); var g = ext(s,.3); g.rotateX(-Math.PI/2.6); return [g] },
-    caneta: function(){ var pts = [new T.Vector2(0,-.8),new T.Vector2(.62,-.8),new T.Vector2(.72,.8),new T.Vector2(.62,.8),new T.Vector2(.53,-.68),new T.Vector2(0,-.68)]; return [new T.LatheGeometry(pts, 6)] },
-    clip: function(){ var s = new T.Shape(); s.absarc(0,0,.7,Math.PI*.25,Math.PI*1.75,false); s.absarc(0,0,.45,Math.PI*1.75,Math.PI*.25,true); s.closePath(); return [ext(s,.5)] }
+    // vaso espiral: perfil girado, com nervuras que torcem com a altura
+    vaso: function(){
+      var g = lathe([[0,-.85],[.42,-.85],[.55,-.55],[.62,-.1],[.5,.35],[.36,.7],[.42,.88],[.38,.9]], 96), v = g.attributes.position;
+      for (var i=0;i<v.count;i++){ var x = v.getX(i), y = v.getY(i), z = v.getZ(i), r = Math.hypot(x,z), a = Math.atan2(z,x); if (r < .01) continue; r *= 1 + .07*Math.sin(8*a + y*4.5); v.setXYZ(i, Math.cos(a)*r, y, Math.sin(a)*r) }
+      g.computeVertexNormals(); return [g] },
+    // cachepô facetado: tronco de cone de sete faces
+    cachepo: function(){ return [flat(lathe([[0,-.6],[.5,-.6],[.82,.55],[.72,.55],[.43,-.48],[0,-.48]], 7))] },
+    // luminária de lua: esfera com crateras sobre uma base
+    lua: function(){
+      var g = new T.IcosahedronGeometry(.72, 4), v = g.attributes.position, C = [[.6,.5,.62],[-.5,.2,.84],[.1,-.4,.9],[-.2,.75,.6],[.85,-.3,.4]];
+      for (var i=0;i<v.count;i++){ var p = new T.Vector3(v.getX(i), v.getY(i), v.getZ(i)).normalize(), d = 1;
+        C.forEach(function(c){ var q = new T.Vector3(c[0],c[1],c[2]).normalize(), t = p.distanceTo(q); if (t < .28) d -= .05*Math.cos(t/.28*Math.PI/2) });
+        p.multiplyScalar(.72*d); v.setXYZ(i, p.x, p.y + .12, p.z) }
+      g.computeVertexNormals();
+      var base = new T.CylinderGeometry(.34, .4, .16, 32); base.translate(0, -.72, 0);
+      return [g, base] },
+    // cobra articulada: gomos em onda, do rabo à cabeça
+    cobra: function(){
+      var out = [], N = 9;
+      for (var i=0;i<N;i++){ var t = i/(N-1), x = -1.05 + t*2.1, z = .32*Math.sin(t*Math.PI*2), dz = .32*Math.PI*2*Math.cos(t*Math.PI*2)/2.1, s = .55 + .45*t;
+        var b = new T.BoxGeometry(.2, .16*s, .26*s); b.rotateY(-Math.atan(dz)); b.translate(x, 0, z); out.push(b) }
+      var head = new T.BoxGeometry(.3, .2, .32); head.translate(1.25, .01, .32*Math.sin(Math.PI*2)); out.push(head);
+      return out },
+    // pião: corpo cônico, aba e haste
+    piao: function(){ return [lathe([[0,-.9],[.06,-.82],[.5,-.2],[.6,-.05],[.58,.08],[.42,.2],[.1,.24],[.1,.78],[0,.82]], 48)] },
+    // porta-velas: copo baixo sextavado, com o vazado da vela
+    velas: function(){ return [flat(lathe([[0,-.4],[.78,-.4],[.78,.36],[.6,.36],[.6,-.18],[0,-.18]], 6))] }
   };
   var wireMat = new T.LineBasicMaterial({color:0x5EBAF3, transparent:true, opacity:.75}); wireMat.color.convertSRGBToLinear();
   PIECES.forEach(function(P){
@@ -2023,13 +2105,18 @@ function readAll(){
   $$('input[data-k]', form).forEach(function(el){
     var t = el.dataset.t, k = el.dataset.k;
     if (t === 'brl') state[k] = maskBRL(el);
-    else if (t === 'pct'){ el.value = el.value.replace(/\D/g,'').slice(0,3); state[k] = +el.value || 0 }
+    else if (t === 'pct' || t === 'int'){ el.value = el.value.replace(/\D/g,'').slice(0,3); state[k] = +el.value || 0 }
     else state[k] = parseDec(el.value);
   });
+  state.minutos = state.tH*60 + state.tM;
 }
-var BAR = {material:'var(--azul-400)',energia:'var(--azul-100)',maquina:'var(--azul-600)',setup:'var(--aco-400)',refugo:'hatch',pos:'var(--aco-400)',insumos:'var(--aco-600)',lucro:'var(--azul-300)',taxas:'var(--aco-500)'};
-var NAMES = {material:'Material',energia:'Energia',maquina:'Máquina',setup:'Setup',refugo:'Refugo',pos:'Pós-processamento',insumos:'Insumos',lucro:'Lucro',taxas:'Taxas de canal e pagamento'};
-var KEYS = ['material','energia','maquina','setup','refugo','pos','insumos','lucro','taxas'];
+/* minuto aceita 0 a 59: 75 vira 1 h 15 min ao sair do campo */
+var cTh = $('#c-th'), cTm = $('#c-tm');
+function setTempo(total){ total = Math.max(0, total); cTh.value = String(Math.floor(total/60)); cTm.value = String(total%60) }
+cTm.addEventListener('blur', function(){ var m = +cTm.value || 0; if (m > 59){ setTempo((+cTh.value || 0)*60 + m); calc() } });
+var BAR = {material:'var(--azul-400)',energia:'var(--azul-100)',maquina:'var(--azul-600)',setup:'var(--aco-400)',refugo:'hatch',pos:'var(--aco-400)',insumos:'var(--aco-600)',lucro:'var(--azul-300)',taxas:'var(--aco-500)',imposto:'var(--nevoa-200)'};
+var NAMES = {material:'Material',energia:'Energia',maquina:'Máquina',setup:'Setup',refugo:'Refugo',pos:'Pós-processamento',insumos:'Insumos',lucro:'Lucro',taxas:'Taxas de canal e pagamento',imposto:'Imposto da nota'};
+var KEYS = ['material','energia','maquina','setup','refugo','pos','insumos','lucro','taxas','imposto'];
 function sw(k){ return BAR[k] === 'hatch' ? ' class="hatch"' : ' style="background:' + BAR[k] + '"' }
 var rBar = $('#rBar'), rLines = $('#rLines');
 rBar.innerHTML = KEYS.map(function(k){ return '<i data-k="'+k+'"'+ (BAR[k]==='hatch' ? ' class="hatch" style="flex:1 1 0"' : ' style="flex:1 1 0;background:'+BAR[k]+'"') +'></i>' }).join('');
@@ -2044,19 +2131,27 @@ $$('.rl[data-k]', rLines).forEach(function(el){
 var lastRes = null, pbarV = $('#pbarV');
 function validate(){
   var ok = true;
-  $$('.f[data-f]', form).forEach(function(f){ var k = f.dataset.f, bad = !(state[k] > 0); f.classList.toggle('bad', bad); $('input', f).setAttribute('aria-invalid', bad); if (bad) ok = false });
+  $$('.f[data-f]', form).forEach(function(f){ var k = f.dataset.f, bad = !(state[k] > 0); f.classList.toggle('bad', bad); $$('input', f).forEach(function(i){ i.setAttribute('aria-invalid', bad) }); if (bad) ok = false });
   return ok;
 }
+var resEl = $('#res'), rErr = $('#rErr');
 function calc(){
   readAll();
-  $('#hmin').textContent = hm(state.minutos);
   if (!validate()) return;
   var r = MOTOR.precificar(state);
-  if (r.erro){ ticker($('#rPrice')).set('Taxas acima de 100%'); return }
+  resEl.classList.toggle('erro', !!r.erro); rErr.hidden = !r.erro;
+  if (r.erro){
+    lastRes = null;
+    rErr.textContent = 'As taxas somam ' + String(r.somaPct).replace('.',',') + '%. Revise canal, pagamento e imposto.';
+    ticker(pbarV).set('Revise as taxas');
+    return;
+  }
   lastRes = r;
-  setMoney($('#rPrice'), r.preco); setMoney($('#rCost'), r.custo); setMoney($('#rProfit'), r.lucro); setMoney($('#rFees'), r.taxas);
+  setMoney($('#rPrice'), r.preco); setMoney($('#rCost'), r.custo); setMoney($('#rProfit'), r.lucro); setMoney($('#rFees'), r.taxas); setMoney($('#rTax'), r.imposto);
+  $('#rTaxW').hidden = !state.comNota;
   setMoney(pbarV, r.preco);
   KEYS.forEach(function(k){ setMoney($('#rl-'+k), r[k]); $('i[data-k="'+k+'"]', rBar).style.flexGrow = Math.max(r[k],0) });
+  $('.rl[data-k="imposto"]', rLines).hidden = !state.comNota;
   setMoney($('#rl-custo'), r.custo);
   $('#rbase').textContent = state.refugoPct + '% sobre ' + brl(r.baseRefugo).replace('R$ ','');
 }
@@ -2068,8 +2163,10 @@ form.addEventListener('input', function(e){
 });
 form.addEventListener('submit', function(e){ e.preventDefault() });
 $$('.stp', form).forEach(function(b){ b.addEventListener('click', function(){
-  var inp = $('input', b.parentNode), v = parseDec(inp.value) + (+b.dataset.step);
-  inp.value = String(Math.max(0, Math.round(v))); calc();
+  var inp = $('input', b.parentNode), st = +b.dataset.step;
+  if (inp === cTm) setTempo((+cTh.value || 0)*60 + (+cTm.value || 0) + st);   /* minuto transborda para a hora */
+  else inp.value = String(Math.max(0, Math.round(parseDec(inp.value) + st)));
+  calc();
 }) });
 var chan = $('#chan');
 function fixaBR(v){ return brl(cents(v)).replace('R$ ','') }
@@ -2077,6 +2174,12 @@ segBind(chan, function(v){
   var c = CANAIS[v];
   $('#c-canal').value = c.pct; $('#c-fixa').value = fixaBR(c.fixa);
   $('#chanHelp').textContent = v === 'direta' ? 'Sem comissão de canal. Se cobrar no cartão, informe a taxa na conta completa.' : 'Taxa de referência: ' + c.pct + '% + ' + brl(cents(c.fixa)) + ' por venda. Confira a do seu anúncio.';
+  calc();
+});
+var nota = $('#nota');
+segBind(nota, function(v){
+  state.comNota = v === 'com';
+  $('#impBox').classList.toggle('hide', !state.comNota);
   calc();
 });
 var origem = $('#origem');

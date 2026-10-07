@@ -1,0 +1,12 @@
+{
+  "_sobre": "Seis casos da calculadora. Feitos à mão (Decimal, fora do JS) e conferidos contra public.fn_precificar no Supabase lvnavmtyselveozllcuy em 07/10/2026, só leitura. Os três bateram centavo por centavo. Fixos de todos os casos: fatiador, 120 W, impressora R$ 4.000, 5.000 h, manutenção R$ 0,15/h, tarifa R$ 0,881/kWh, setup 10 min, pós 5 min, hora R$ 25, insumos R$ 1,50, refugo 8%, arredondamento em ,90.",
+  "_sql": "select public.fn_precificar('00000000-0000-0000-0000-000000000000', jsonb_build_object('filamentos', jsonb_build_array(jsonb_build_object('gramas',g,'preco_kg',kg,'origem','fatiador')), 'horas', min/60, 'preparo_min',10, 'acabamento_min_peca',5, 'insumos_peca',1.5, 'embalagem',0, 'margem', lucro/100, 'arredondar_90', true, 'com_nota', imposto>0, 'impressora', jsonb_build_object('potencia_w',120,'valor_compra',4000,'vida_util_h',5000,'manutencao_hora',0.15), 'canal', jsonb_build_object('taxa_pct',pct,'taxa_fixa',fixa), 'params', jsonb_build_object('tarifa_kwh',0.881,'valor_hora_operador',25,'taxa_refugo',0.08,'imposto_pct',imposto/100,'embalagem_padrao',0)))",
+  "casos": [
+    {"id": "A", "canal": "shopee", "g": 85,  "h": 3, "min": 10, "kg": "120,00", "lucro": 50,  "nota": false, "imposto": 0,  "preco": "R$ 44,90", "custo": "R$ 22,71", "lucroR": "R$ 11,90", "taxas": "R$ 10,29", "impostoR": "R$ 0,00"},
+    {"id": "B", "canal": "direta", "g": 100, "h": 5, "min": 0,  "kg": "150,00", "lucro": 30,  "nota": false, "imposto": 0,  "preco": "R$ 39,90", "custo": "R$ 29,98", "lucroR": "R$ 9,92",  "taxas": "R$ 0,00",  "impostoR": "R$ 0,00"},
+    {"id": "C", "canal": "mlp",    "g": 10,  "h": 0, "min": 30, "kg": "100,00", "lucro": 100, "nota": false, "imposto": 0,  "preco": "R$ 32,90", "custo": "R$ 9,73",  "lucroR": "R$ 10,17", "taxas": "R$ 13,00", "impostoR": "R$ 0,00"},
+    {"id": "D", "canal": "shopee", "g": 85,  "h": 3, "min": 10, "kg": "120,00", "lucro": 50,  "nota": true,  "imposto": 4,  "preco": "R$ 46,90", "custo": "R$ 22,71", "lucroR": "R$ 11,75", "taxas": "R$ 10,57", "impostoR": "R$ 1,88"},
+    {"id": "E", "canal": "direta", "g": 100, "h": 5, "min": 0,  "kg": "150,00", "lucro": 30,  "nota": true,  "imposto": 6,  "preco": "R$ 41,90", "custo": "R$ 29,98", "lucroR": "R$ 9,40",  "taxas": "R$ 0,00",  "impostoR": "R$ 2,51"},
+    {"id": "F", "canal": "mlc",    "g": 40,  "h": 1, "min": 45, "kg": "130,00", "lucro": 80,  "nota": true,  "imposto": 10, "preco": "R$ 46,90", "custo": "R$ 15,69", "lucroR": "R$ 13,20", "taxas": "R$ 13,32", "impostoR": "R$ 4,69"}
+  ]
+}

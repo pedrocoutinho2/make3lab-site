@@ -1,0 +1,12 @@
+{
+  "name": "make3lab-site",
+  "private": true,
+  "description": "Site de venda do Make3Lab (make3lab.com.br). Arquivo único, sem build.",
+  "scripts": {
+    "lint": "node tools/lint-marca.js",
+    "test": "node tools/teste.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
+  }
+}
