@@ -1,11 +1,20 @@
 ---
 chapeu: make3lab
 status: ativo, Parte A na branch parte-a-tempo-nf-pecas, sem deploy
-atualizado: 2026-10-07
+atualizado: 2026-10-07, segunda rodada
 tags: [make3lab, site, changelog]
 ---
 
 # Site make3lab.com.br, v2.1 Parte A (07/10/2026)
+
+## Ajustes de 07/10, segunda rodada
+
+Decisões em `50-decisoes/2026-10-07-make3lab-refugo-medido-e-percentual-fiscal.md`.
+
+- **Limite de taxas igual ao sistema.** Conferido no `fn_precificar`: a checagem de 95% (`1 − canal − imposto − pagamento <= 0,05`) só existe no ramo sem arredondamento. Com ,90, que é o padrão e o que a página espelha, o 019 não corta por percentual. Ele sobe o preço R$ 1 por vez e recusa se não fechar em 20.000 passos. A página agora faz o mesmo (decisão do Pedro). Com 94%, o vaso sai a R$ 680,90 e, com 99%, a R$ 3.406,90, igual ao banco. Com 100%, aparece "As taxas somam 100%. Revise canal, pagamento e imposto."
+- **Imposto da nota e taxa de pagamento com até duas casas.** Ponto e vírgula valem como separador decimal, porque percentual fiscal não tem milhar. Exibição em pt-BR (`6,72`). A terceira casa arredonda, com conta feita em texto e não em float: `6.725` vira `6,73`, `6.72` vira `6,72`. Os outros percentuais continuam inteiros
+- **Número herói**: o número grande é o percentual do lucro perdido (12%). Abaixo, "R$ 1,34 a menos em cada vaso espiral.". Tudo na seção sai do motor e da peça de exemplo, sem número escrito no HTML. Com o filamento a R$ 200/kg no código, vira 8% e R$ 1,16
+- Testes: 62 de 62. Entraram os casos G (imposto 6,72%), H (imposto 6,72% e pagamento 4,99%) e I (o mesmo H digitado com ponto), a máscara dos dois campos com ponto e vírgula, conferidos à mão e no `fn_precificar` centavo por centavo, as bordas de 94%, 99% e 100% e o teste do número herói com filamento a R$ 200/kg
 
 Repo: `github.com/pedrocoutinho2/make3lab-site` (privado). `main` tem o commit base de 28/09. A Parte A está na branch `parte-a-tempo-nf-pecas`. Sem merge e sem deploy. Decisões em `50-decisoes/2026-10-07-make3lab-site-motor-019-e-fonte-dos-numeros.md`.
 
@@ -15,7 +24,7 @@ Repo: `github.com/pedrocoutinho2/make3lab-site` (privado). `main` tem o commit b
 - Espelho do `fn_precificar` (SQL 019), lido no Supabase em 07/10. Mesma ordem de conta, conta inteira arredondada só no fim, preço arredondado para cima até o próximo ,90 (padrão do sistema, decisão do Pedro)
 - Entrou a manutenção por hora da máquina (R$ 0,15/h, padrão do sistema). Tarifa padrão passou de R$ 0,95 para R$ 0,881/kWh, como em `fn_params_preco`
 - Imposto da nota no denominador, com canal e pagamento: `preço = (custo + lucro + taxa fixa) ÷ (1 − canal − pagamento − imposto)`, igual ao 019
-- Taxas somando 90% ou mais: sem preço, com a mensagem "As taxas somam X%. Revise canal, pagamento e imposto."
+- Taxas somando 90% ou mais: sem preço, com a mensagem "As taxas somam X%. Revise canal, pagamento e imposto." (trocado na segunda rodada, ver acima)
 
 **Calculadora**
 - Campos na ordem: peso, tempo (h e min), filamento, lucro, onde você vende, nota fiscal. Padrão `Sem nota`. `Com nota` abre "Imposto da nota", 4%
@@ -43,15 +52,15 @@ Repo: `github.com/pedrocoutinho2/make3lab-site` (privado). `main` tem o commit b
 
 ## Divergências com o fn_precificar
 
-- O 019 recusa o preço com taxas acima de 95%. A página recusa a partir de 90%, por regra de tela
+- Limite de taxas: resolvido na segunda rodada, a página segue o 019 com ,90
 - O canal do 019 aceita taxa por faixa de preço. A página usa uma taxa só por canal (ML com taxa fixa em qualquer preço)
-- O refugo do 019 é parâmetro fixo da org, não histórico. As instruções v2.3 dizem que vem do histórico quando houver
+- O refugo do 019 é parâmetro fixo da org, não histórico. Decidido em 07/10: o sistema passa a medir. Até lá o site não promete medição
 
 ## Pendências [CONFIRMAR]
 
 1. **Novo.** 4% de imposto é referência da primeira faixa do Simples Nacional, Anexo I. Peça impressa pode cair no Anexo II. Validar com contador
-2. **Novo.** O campo de imposto aceita só percentual inteiro, pelo padrão de campo do vault. Alíquota efetiva do Simples costuma ter casa decimal
-3. **Novo.** Refugo do histórico de produção: o sistema não faz. Decidir se entra no 019 ou se a regra da v2.3 muda
+2. Fórmula e janela da medição do refugo no sistema (proposta, não decidida: falhas ÷ iniciadas nos últimos 90 dias, 8% enquanto o histórico for pequeno)
+3. Atualizar a regra de percentual nos padrões de campo das instruções do Project (imposto e pagamento com duas casas)
 4. Perda de 5% no peso digitado (padrão sem fonte)
 5. Valores padrão da peça de exemplo: impressora R$ 4.000, 120 W, 5.000 h, canal de 20%
 6. Termos de uso, política de privacidade, assinatura Crista Labs (links escondidos no rodapé)

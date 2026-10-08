@@ -4,7 +4,7 @@ const { chromium } = require(process.env.PW || 'playwright');
 const OUT = process.argv[2] || '.';
 const URL = process.env.URL || 'http://localhost:8765/';
 const fs = require('fs');
-const CASOS = require('./casos-calculadora.json').casos;
+const FIX = require('./casos-calculadora.json'), CASOS = FIX.casos, BORDAS = FIX.bordas;
 const res = [];
 function ok(name, pass, info){ res.push({name, pass, info}); console.log((pass ? 'PASSOU ' : 'FALHOU ') + name + (info ? '  ' + info : '')) }
 async function page(b, o){
@@ -44,16 +44,28 @@ async function nota(p, com){ await p.click(`#nota button[data-v="${com ? 'com' :
     const p = await page(b, v);
     const W = v.w + 'px';
 
-    // 1. calculadora: 3 casos sem nota e 3 com nota, feitos à mão e conferidos no fn_precificar
+    // 1. calculadora: casos sem nota e com nota, feitos à mão e conferidos no fn_precificar
     await center(p, '#calculadora');
+    let aberta = false;
     for (const c of CASOS){
       await canal(p, c.canal); await nota(p, c.nota);
       if (c.nota) await set(p, '#c-imp', c.imposto);
+      if (c.pag !== '0' && !aberta){ await p.click('#more summary'); aberta = true; await p.waitForTimeout(300) }
+      if (aberta) await set(p, '#c-pag', c.pag);
       await set(p, '#c-g', c.g); await set(p, '#c-th', c.h); await set(p, '#c-tm', c.min); await set(p, '#c-kg', c.kg.replace(',','')); await set(p, '#c-luc', c.lucro);
       const got = {preco: await money(p, '#rPrice'), custo: await money(p, '#rCost'), lucroR: await money(p, '#rProfit'), taxas: await money(p, '#rFees'), impostoR: await money(p, '#rTax')};
       const impVis = await p.$eval('#rTaxW', e => !e.hidden);
       const pass = ['preco','custo','lucroR','taxas','impostoR'].every(k => got[k] === c[k]) && impVis === c.nota;
-      ok(`${W} calc caso ${c.id} ${c.nota ? 'com nota ' + c.imposto + '%' : 'sem nota'}: ${c.canal}, ${c.g} g, ${c.h} h ${c.min} min, R$ ${c.kg}/kg, ${c.lucro}%`, pass, JSON.stringify(got) + (impVis ? ' imposto visível' : ''));
+      ok(`${W} calc caso ${c.id}${c._obs ? ' (' + c._obs + ')' : ''} ${c.nota ? 'com nota ' + c.imposto + '%' : 'sem nota'}${c.pag !== '0' ? ', pagamento ' + c.pag + '%' : ''}: ${c.canal}, ${c.g} g, ${c.h} h ${c.min} min, R$ ${c.kg}/kg, ${c.lucro}%`, pass, JSON.stringify(got) + (impVis ? ' imposto visível' : ''));
+    }
+    if (aberta){ await set(p, '#c-pag', 0); await p.click('#more summary'); await p.waitForTimeout(300) }
+    // percentual fiscal com até duas casas: ponto e vírgula são separador decimal, terceira casa arredonda
+    const MASC = [['6.725','6,73'],['6.72','6,72'],['6,72','6,72'],['6,725','6,73'],['4.994','4,99'],['9.995','10,00']];
+    for (const id of ['#c-imp','#c-pag']){
+      if (id === '#c-pag'){ await p.click('#more summary'); await p.waitForTimeout(300) }
+      const got = []; for (const [inp] of MASC){ await set(p, id, inp); got.push(await p.inputValue(id)) }
+      ok(`${W} ${id === '#c-imp' ? 'imposto' : 'taxa de pagamento'}: ${MASC.map(m => m[0] + ' vira ' + m[1]).join(', ')}`, got.every((g, i) => g === MASC[i][1]), got.join(' / '));
+      if (id === '#c-pag'){ await set(p, id, 0); await p.click('#more summary'); await p.waitForTimeout(300) }
     }
     if (v.t === 'd'){ await center(p, '#res'); }
     await p.screenshot({path:`${OUT}/calculadora-${v.w}-com-nota.png`});
@@ -70,21 +82,21 @@ async function nota(p, com){ await p.click(`#nota button[data-v="${com ? 'com' :
     await set(p, '#c-th', 3); await set(p, '#c-tm', 10);
     if (v.w < 1024){ const fs16 = await p.$$eval('#cf input', a => a.every(i => getComputedStyle(i).fontSize === '16px')); ok(`${W} input com 16 px abaixo de 1024 px`, fs16) }
 
-    // 3. taxas somando 90% ou mais: erro e nenhum preço
-    await canal(p, 'direta'); await nota(p, true); await set(p, '#c-imp', 90);
-    const e90 = await p.evaluate(() => ({err: document.querySelector('#rErr').textContent, errVis: !document.querySelector('#rErr').hidden, price: getComputedStyle(document.querySelector('#rPrice')).display}));
-    ok(`${W} taxas em 90%: erro e sem preço`, e90.errVis && e90.err === 'As taxas somam 90%. Revise canal, pagamento e imposto.' && e90.price === 'none', JSON.stringify(e90));
-    await canal(p, 'mlp'); await set(p, '#c-imp', 75);
-    const e94 = await p.evaluate(() => ({err: document.querySelector('#rErr').textContent, price: getComputedStyle(document.querySelector('#rPrice')).display}));
-    ok(`${W} taxas em 94%: erro e sem preço`, e94.err === 'As taxas somam 94%. Revise canal, pagamento e imposto.' && e94.price === 'none', JSON.stringify(e94));
-    await canal(p, 'direta'); await set(p, '#c-imp', 89);
-    const e89 = await p.evaluate(() => ({errVis: !document.querySelector('#rErr').hidden, price: getComputedStyle(document.querySelector('#rPrice')).display}));
-    ok(`${W} taxas em 89%: calcula`, !e89.errVis && e89.price !== 'none', JSON.stringify(e89));
+    // 3. limite de taxas igual ao fn_precificar com ,90: sem corte por percentual, recusa só se o preço não fechar em 20.000 passos
+    await set(p, '#c-g', 85); await set(p, '#c-th', 3); await set(p, '#c-tm', 10); await set(p, '#c-kg', '12000'); await set(p, '#c-luc', 50); await nota(p, true);
+    for (const t of BORDAS){
+      await canal(p, t.canal); await set(p, '#c-imp', t.imposto);
+      const e = await p.evaluate(() => ({err: document.querySelector('#rErr').textContent, errVis: !document.querySelector('#rErr').hidden, price: getComputedStyle(document.querySelector('#rPrice')).display, v: document.querySelector('#rPrice .sr').textContent}));
+      const pass = t.erro ? (e.errVis && e.err === t.erro && e.price === 'none') : (!e.errVis && e.price !== 'none' && e.v === t.preco);
+      ok(`${W} taxas em ${t.soma}: ${t.erro ? 'erro e sem preço' : 'calcula ' + t.preco + ', igual ao sistema'}`, pass, JSON.stringify(e));
+    }
     await set(p, '#c-imp', 4); await nota(p, false); await canal(p, 'shopee'); await set(p, '#c-g', 85);
 
     if (v.t === 'd'){
       // 4. número herói e peças, tudo do motor da página
-      ok('número herói R$ 1,34 e 12%', (await txt(p, '#hnBig')) === 'R$ 1,34' && (await txt(p, '#hnPct')) === '12%', (await txt(p, '#hnBig')) + ' ' + (await txt(p, '#hnPct')));
+      ok('número herói: 12% grande, R$ 1,34 a menos em cada vaso espiral', (await txt(p, '#hnBig')) === '12%' && (await txt(p, '.hn .per')) === 'R$ 1,34 a menos em cada vaso espiral.', (await txt(p, '#hnBig')) + ' · ' + (await txt(p, '.hn .per')));
+      const hnFont = await p.$eval('#hnBig', e => getComputedStyle(e).fontFamily + ' ' + getComputedStyle(e).fontVariantNumeric);
+      ok('número herói na fonte de número, tabular', /Archivo/.test(hnFont) && /tabular-nums/.test(hnFont), hnFont);
       const gal = await p.$$eval('.pc', a => a.map(e => e.querySelector('.meta b').textContent + ' ' + e.querySelector('.pr').textContent).join(' | '));
       ok('galeria: seis peças novas com preço', gal === 'Vaso espiral R$ 42,90 | Cachepô facetado R$ 61,90 | Luminária de lua R$ 52,90 | Cobra articulada R$ 29,90 | Pião R$ 21,90 | Porta-velas R$ 35,90', gal);
       ok('capítulo: vaso-espiral.3mf, 85 g, 3 h 10 min', (await txt(p, '.file b')) === 'vaso-espiral.3mf' && (await txt(p, '#c2g')) === '85 g' && (await txt(p, '#c2t')) === '3 h 10 min');
@@ -109,7 +121,9 @@ async function nota(p, com){ await p.click(`#nota button[data-v="${com ? 'com' :
       ok('números em Archivo com algarismo tabular', /Archivo/.test(fonte) && /tabular-nums/.test(fonte), fonte);
     }
 
-    // 7. prints das três telas mudadas
+    // 7. prints: hero, número herói, calculadora, galeria e cinco erros
+    await p.evaluate(() => scrollTo(0, 0)); await p.waitForTimeout(900); await p.screenshot({path:`${OUT}/hero-${v.w}.png`});
+    await center(p, '#numero'); await p.waitForTimeout(600); await p.screenshot({path:`${OUT}/numero-heroi-${v.w}.png`});
     for (const s of ['#e1','#e2','#e3','#e4','#e5']){ await center(p, s); await p.waitForTimeout(700); await p.screenshot({path:`${OUT}/erros-${v.w}-${s.slice(1)}.png`}) }
     await center(p, '#pecas'); await p.waitForTimeout(600); await p.screenshot({path:`${OUT}/galeria-${v.w}.png`});
     await shot(p, '#pecas', `${OUT}/galeria-${v.w}-secao.png`);
@@ -128,14 +142,22 @@ async function nota(p, com){ await p.click(`#nota button[data-v="${com ? 'com' :
     await p.context().close();
   }
 
-  // 9. movimento reduzido: sem pin, capítulo empilhado, página inteira legível
+  // 9. número herói sai do motor: filamento a R$ 200/kg no código da peça de exemplo muda os dois números
+  const ctxH = await b.newContext({viewport:{width:1440,height:900}});
+  await ctxH.route(URL, async r => { const resp = await r.fetch(); const body = (await resp.text()).replace("precoKg:120,minutos:190", "precoKg:200,minutos:190"); await r.fulfill({response: resp, body}) });
+  const h = await ctxH.newPage(); await h.goto(URL, {waitUntil:'networkidle'}); await h.waitForTimeout(800);
+  const hv = await h.evaluate(() => [document.querySelector('#hnBig').textContent, document.querySelector('.hn .per').textContent]);
+  ok('número herói com filamento a R$ 200/kg: 8% e R$ 1,16, os dois mudam juntos', hv[0] === '8%' && hv[1] === 'R$ 1,16 a menos em cada vaso espiral.', hv.join(' · '));
+  await ctxH.close();
+
+  // 10. movimento reduzido: sem pin, capítulo empilhado, página inteira legível
   const r = await page(b, {w:390, h:844, rm:true});
   const rm = await r.evaluate(() => ({hero: document.querySelector('#hero').offsetHeight, ih: innerHeight, steps: [...document.querySelectorAll('.step')].every(s => getComputedStyle(s).opacity === '1'), pos: getComputedStyle(document.querySelector('.cap-stage')).position}));
   ok('reduced motion: hero sem pin, passos visíveis, capítulo sem sticky', rm.hero <= rm.ih + 2 && rm.steps && rm.pos !== 'sticky', JSON.stringify(rm));
   ok('reduced motion: zero erro de console', r.errs.length === 0, r.errs.join(' | '));
   await b.close();
 
-  // 10. sem WebGL: fallback SVG aparece, página funciona
+  // 11. sem WebGL: fallback SVG aparece, página funciona
   const b2 = await chromium.launch({args:['--disable-gpu','--disable-webgl','--disable-3d-apis']});
   const n = await page(b2, {w:1440, h:900});
   await scrollTo(n, '#hero', .5);
