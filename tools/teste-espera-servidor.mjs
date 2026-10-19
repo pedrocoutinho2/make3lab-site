@@ -1,4 +1,4 @@
-// Teste da /espera contra respostas reais da Edge Function: mensagem do servidor
+// Teste da /founders contra respostas reais da Edge Function: mensagem do servidor
 // aparece no formulário, botão volta a funcionar e e-mail repetido mostra sucesso.
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
@@ -26,7 +26,7 @@ for (const vp of [{ w: 1440, h: 900, n: 'desk' }, { w: 390, h: 844, n: 'mob', mo
     const errs = [];
     page.on('pageerror', e => errs.push(e.message));
     await page.route('**/functions/v1/lead-espera', r => r.fulfill({ status: caso.status, contentType: 'application/json', body: JSON.stringify(caso.body) }));
-    await page.goto(BASE + '/espera/', { waitUntil: 'load' });
+    await page.goto(BASE + '/founders/', { waitUntil: 'load' });
     await page.waitForTimeout(3200); // a função recusa envio em menos de 3 s
     await page.locator('#fm').scrollIntoViewIfNeeded();
     await preenche(page);
@@ -51,7 +51,7 @@ for (const vp of [{ w: 1440, h: 900, n: 'desk' }, { w: 390, h: 844, n: 'mob', mo
 const ctx = await browser.newContext(); const page = await ctx.newPage();
 const r = await page.goto(BASE + '/privacidade/');
 ok('privacidade: abre', r.status() === 200);
-ok('privacidade: link de volta para /espera', await page.locator('a[href="/espera"]').count() > 0);
+ok('privacidade: link de volta para /founders', await page.locator('a[href="/founders/"]').count() > 0);
 await browser.close();
 
 for (const [s, n, i] of res) console.log(s, n, i ? '· ' + i : '');

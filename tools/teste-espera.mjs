@@ -1,8 +1,8 @@
-// Teste da página /espera: render, rolagem, telas, formulário com envio interceptado.
+// Teste da página /founders: render, rolagem, telas, formulário com envio interceptado.
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const { chromium } = require('/opt/npm-tools/node_modules/playwright');
-const BASE = 'http://localhost:8765';
+const BASE = process.env.BASE || 'http://localhost:8765';
 const SHOT = process.argv[2] || 'shots';
 import fs from 'fs'; fs.mkdirSync(SHOT, { recursive: true });
 
@@ -20,7 +20,7 @@ for (const vp of [{ w: 1440, h: 900, n: 'desk' }, { w: 390, h: 844, n: 'mob', mo
     payload = JSON.parse(r.request().postData());
     await r.fulfill({ status: 200, contentType: 'application/json', headers: { 'Access-Control-Allow-Origin': '*' }, body: '{"ok":true}' });
   });
-  await page.goto(BASE + '/espera/?utm_source=teste', { waitUntil: 'load' });
+  await page.goto(BASE + '/founders/?utm_source=teste', { waitUntil: 'load' });
   await page.waitForTimeout(1500);
   await page.screenshot({ path: `${SHOT}/${vp.n}-1-hero.png` });
 
@@ -128,7 +128,7 @@ for (const vp of [{ w: 1440, h: 900, n: 'desk' }, { w: 390, h: 844, n: 'mob', mo
   const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const page = await ctx.newPage();
   await page.route('**/functions/v1/lead-espera', r => r.fulfill({ status: 429, contentType: 'application/json', body: '{"erro":"limite","mensagem":"Muitos envios. Tente mais tarde."}' }));
-  await page.goto(BASE + '/espera/');
+  await page.goto(BASE + '/founders/');
   await page.$eval('#lista', e => e.scrollIntoView());
   await page.fill('#nome', 'Sem Zap'); await page.fill('#email', 'semzap@exemplo.com.br');
   await page.uncheck('#founder'); await page.check('#consent');
@@ -154,7 +154,7 @@ for (const vp of [{ w: 1440, h: 900, n: 'desk' }, { w: 390, h: 844, n: 'mob', mo
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
   const page = await ctx.newPage(); const errs = [];
   page.on('pageerror', e => errs.push(e.message));
-  await page.goto(BASE + '/espera/'); await page.waitForTimeout(800);
+  await page.goto(BASE + '/founders/'); await page.waitForTimeout(800);
   ok('movimento reduzido sem erro', errs.length === 0, errs.join('|'));
   await ctx.close();
 }
