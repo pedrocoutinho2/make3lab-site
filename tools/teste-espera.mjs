@@ -67,6 +67,12 @@ for (const vp of [{ w: 1440, h: 900, n: 'desk' }, { w: 390, h: 844, n: 'mob', mo
   await page.$eval('#founders', e => e.scrollIntoView()); await page.waitForTimeout(900);
   await page.screenshot({ path: `${SHOT}/${vp.n}-6b-founders-topo.png` });
 
+  // Founders começa desmarcado; marcas e canais só aparecem ao marcar
+  ok(`${vp.n}: Founders começa desmarcado`, !(await page.isChecked('#founder')));
+  ok(`${vp.n}: marcas e canais escondidos sem Founders`, !(await page.isVisible('[data-tags="marcas"]')) && !(await page.isVisible('[data-tags="vende"]')));
+  await page.check('#founder');
+  ok(`${vp.n}: marcar Founders mostra marcas e canais`, await page.isVisible('[data-tags="marcas"]') && await page.isVisible('[data-tags="vende"]'));
+  ok(`${vp.n}: bloco do que entra no preço`, await page.isVisible('#conta-t'));
   // envio vazio: erros nos obrigatórios, nada sai
   await page.click('#enviar');
   const bads = await page.$$eval('.fm .f.bad', l => l.map(e => e.dataset.f));

@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Make3Lab · Lista de espera e 10 vagas Founders</title>
-<meta name="description" content="Gestão de produção para impressão 3D FDM. Entre na lista de espera do Make3Lab e concorra a uma das 10 vagas Founders: 6 meses grátis e depois R$ 19,90 por mês, para sempre.">
+<meta name="description" content="Gestão de produção para impressão 3D FDM. Entre na lista de espera do Make3Lab e concorra a uma das 10 vagas Founders: 6 meses grátis e depois R$ 19,90 por mês no plano de entrada.">
+<link rel="canonical" href="https://make3lab.com.br/founders/">
 <meta name="theme-color" content="#061620">
 <meta property="og:title" content="Make3Lab · Lista de espera">
 <meta property="og:description" content="A conta da sua impressão 3D, fechada até o centavo. 10 vagas Founders com 6 meses grátis.">
@@ -197,6 +198,12 @@ section{position:relative}
 .zoom-row{display:flex;justify-content:center;gap:12px;align-items:center;margin-top:22px;flex-wrap:wrap}
 .zoom-cap{font-size:14px;color:var(--aco-400);max-width:52ch;text-align:center;min-height:22px}
 .demo-note{text-align:center;margin-top:10px;font-size:13px;color:var(--aco-400)}
+.conta{margin-top:44px;border:1px solid var(--prussia-700);border-radius:16px;background:var(--prussia-900);padding:26px 28px}
+.conta h3{margin:0 0 18px;font-size:18px;font-weight:600;color:var(--nevoa-100)}
+.conta-g{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.conta-g .k{display:block;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--azul-300);margin-bottom:8px}
+.conta-g p{margin:0;font-size:15px;line-height:1.55;color:var(--nevoa-200)}
+@media (max-width:900px){.conta{padding:22px 20px}.conta-g{grid-template-columns:1fr;gap:18px}}
 .mods{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:36px}
 .mods span{font-size:13px;padding:7px 12px;border-radius:99px;border:1px solid var(--prussia-700);color:var(--aco-400);background:var(--prussia-900)}
 .mods span.soon{border-style:dashed;color:var(--aco-400);background:transparent}
@@ -371,6 +378,7 @@ table.t td .pers{display:block;font-size:10.5px;color:var(--aco-500);margin-top:
 .form-card h3{font-size:clamp(30px,3vw,40px);text-transform:uppercase;line-height:.95}
 .form-card .intro{font-size:15px;color:var(--aco-400);margin:12px 0 26px;max-width:46ch}
 .fm{display:grid;gap:20px}
+.fd-extra{display:grid;gap:20px}
 .fm .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .fm .f{min-width:0}
 .fm .f>label,.fm .f>.lb2{display:block;font-size:14px;font-weight:500;color:var(--nevoa-200);margin-bottom:8px}
@@ -529,7 +537,7 @@ footer .fine a{color:var(--aco-500)}
 <!-- 1. HERO -->
 <section class="hero" id="hero" aria-label="Apresentação">
   <div class="stage">
-    <canvas id="gl" aria-label="Símbolo do Make3Lab sendo impresso em 3D. Depois da impressão, arraste para girar." role="img"></canvas>
+    <canvas id="gl" aria-label="Símbolo do Make3Lab sendo impresso em 3D. Depois da impressão, arraste ou use as setas do teclado para girar." role="img"></canvas>
     <svg class="fallback3d" id="fb3d" viewBox="0 0 71 100" aria-hidden="true"><use href="#symp" fill="var(--azul-500)"/></svg>
     <div class="copy">
       <div class="wrap">
@@ -601,6 +609,14 @@ footer .fine a{color:var(--aco-500)}
       </div>
     </div>
     <p class="demo-note">Telas reais do sistema, no modo demonstração, com dados de exemplo.</p>
+    <div class="conta rv" aria-labelledby="conta-t">
+      <h3 id="conta-t">O que entra no preço de cada peça</h3>
+      <div class="conta-g">
+        <div><span class="k">Do arquivo</span><p>Peso e tempo de impressão, lidos do 3MF ou do G-code do fatiador. Se a peça não veio de arquivo, você digita.</p></div>
+        <div><span class="k">Do seu cadastro, uma vez</span><p>Preço do filamento por quilo, consumo e vida útil de cada impressora, tarifa de energia, hora de mão de obra, embalagem, taxa de cada canal de venda e imposto.</p></div>
+        <div><span class="k">O sistema soma</span><p>Material com perda, energia, desgaste da máquina, setup e pós-processo, refugo, insumos, taxa do canal e imposto. O orçamento mostra o custo e o lucro antes de você mandar para o cliente.</p></div>
+      </div>
+    </div>
     <div class="mods rv" aria-label="Módulos do sistema">
       <span>Produtos e kits</span><span>Clientes</span><span>Filamentos</span><span>Insumos</span><span>Funil de vendas</span><span>Simulador</span><span>Orçamentos</span><span>Vendas</span><span>Consignação</span><span>Fila de produção</span><span>Entregas</span><span>Calendário</span><span>Financeiro</span><span>Relatórios e metas</span><span>Personalização com aprovação de arte</span><span>Sinal e pagamento parcial</span><span>Importação de 3MF e G-code</span><span>Preço por canal</span><span>Usuários por convite</span>
       <span class="soon">Integração direta com marketplace, depois</span><span class="soon">Emissão fiscal, depois</span>
@@ -622,10 +638,11 @@ footer .fine a{color:var(--aco-500)}
       <ul class="terms rv">
         <!-- [CONFIRMAR] "sem cartão" vinha do desenho de 30 dias; confirmar que vale para os 6 meses -->
         <li><span>Grátis</span><span><span class="num">6</span> meses, sem cartão</span></li>
-        <li><span>Depois</span><span><span class="num">R$ 19,90</span> por mês, para sempre<small>Enquanto a assinatura estiver ativa, no plano de entrada. Nos planos maiores, o Founder também tem condição especial.</small></span></li>
+        <li><span>Depois</span><span><span class="num">R$ 19,90</span> por mês no plano de entrada<small>O preço não sobe enquanto a assinatura estiver ativa. Nos planos maiores, o Founder também tem condição especial.</small></span></li>
         <li><span>Entrada</span><span>Uma call de <span class="num">30</span> minutos para montar o sistema com as suas máquinas e os seus filamentos</span></li>
         <li><span>Acompanhamento</span><span>Uma conversa de <span class="num">15</span> minutos a cada <span class="num">15</span> dias até o 3º mês, depois uma por mês no 4º e no 5º</span></li>
         <li><span>Para quem</span><span>Quem já imprime e vende, mesmo que pouco, e quer controlar os custos e vender com mais margem</span></li>
+        <li><span>Seleção</span><span>A gente lê cada cadastro e chama no WhatsApp quem se encaixa. Não é por ordem de chegada</span></li>
       </ul>
     </div>
 
@@ -633,7 +650,7 @@ footer .fine a{color:var(--aco-500)}
       <form class="fm" id="fm" novalidate>
         <div>
           <h3>Entrar na lista</h3>
-          <p class="intro">Abertura por convite. Quem se encaixa no perfil Founder é chamado no WhatsApp antes de todo mundo.</p>
+          <p class="intro">Deixe nome e e-mail para receber o aviso quando o Make3Lab abrir. Para concorrer a uma das 10 vagas Founders, marque a opção no fim do formulário.</p>
         </div>
 
         <div class="f" data-f="nome">
@@ -682,6 +699,12 @@ footer .fine a{color:var(--aco-500)}
           <div class="inp"><input id="qual" type="text" maxlength="80"></div>
         </div>
 
+        <div class="comp">
+          <label class="ck"><input id="founder" type="checkbox" aria-controls="fdWrap"><span><b>Quero concorrer a uma das 10 vagas Founders</b></span></label>
+          <p class="det">Ao marcar, você topa uma call de 30 minutos na entrada, uma conversa de 15 minutos a cada 15 dias nos 3 primeiros meses e uma por mês no 4º e no 5º. Em troca, usa 6 meses de graça e depois paga R$ 19,90 por mês no plano de entrada, enquanto a assinatura estiver ativa.</p>
+        </div>
+
+        <div class="fd-extra hide" id="fdWrap">
         <div class="f" data-f="marcas">
           <span class="lb2" id="l-marcas">Marcas das suas impressoras <small>escolha ou digite</small></span>
           <div class="tags" data-tags="marcas" data-max="10"></div>
@@ -692,9 +715,6 @@ footer .fine a{color:var(--aco-500)}
           <div class="tags" data-tags="vende" data-max="10"></div>
         </div>
 
-        <div class="comp">
-          <label class="ck"><input id="founder" type="checkbox" checked><span><b>Quero concorrer a uma das 10 vagas Founders</b></span></label>
-          <p class="det">Ao marcar, você topa uma call de 30 minutos na entrada, uma conversa de 15 minutos a cada 15 dias nos 3 primeiros meses e uma por mês no 4º e no 5º. Em troca, 6 meses grátis e depois R$ 19,90 por mês para sempre.</p>
         </div>
 
         <div class="f" data-f="consent">
@@ -1340,7 +1360,7 @@ wa.addEventListener('input', function(){
   wa.value = r;
 });
 var founder = $('#founder'), waOpt = $('#wa-opt');
-function syncFounder(){ waOpt.textContent = founder.checked ? 'obrigatório para Founders' : 'opcional' }
+function syncFounder(){ waOpt.textContent = founder.checked ? 'obrigatório para Founders' : 'opcional'; $('#fdWrap').classList.toggle('hide', !founder.checked) }
 founder.addEventListener('change', function(){ syncFounder(); if (!founder.checked) bad('whatsapp', false) });
 syncFounder();
 
@@ -1379,8 +1399,8 @@ fm.addEventListener('submit', function(e){
     email: $('#email').value.trim(),
     whatsapp: wa.value.trim() || null,
     qtd_impressoras: $('#qtd').value || null,
-    marcas: TAGS.marcas(),
-    vende_onde: TAGS.vende(),
+    marcas: founder.checked ? TAGS.marcas() : [],
+    vende_onde: founder.checked ? TAGS.vende() : [],
     precifica_hoje: prec.value || null,
     precifica_qual: prec.value === 'sistema' ? ($('#qual').value.trim() || null) : null,
     quer_founder: founder.checked,
