@@ -43,14 +43,21 @@ for (const vp of [{ w: 1440, h: 900, n: 'desk' }, { w: 390, h: 844, n: 'mob', mo
   // telas
   await page.$eval('#telas', e => e.scrollIntoView()); await page.waitForTimeout(1800);
   await page.screenshot({ path: `${SHOT}/${vp.n}-4-telas.png` });
-  const orcTot = await page.$eval('#orcTot', e => e.textContent);
-  ok(`${vp.n}: orçamento de exemplo calculado`, /R\$ [\d.]+,\d{2}/.test(orcTot) && orcTot !== 'R$ 0,00', orcTot);
+  const foto = await page.$eval('#app img.view.on', e => ({ ok: e.complete && e.naturalWidth > 0, src: e.currentSrc }));
+  ok(`${vp.n}: foto real do orçamento carregada`, foto.ok, foto.src);
   for (const t of ['funil','prod']) { await page.click(`#tabs button[data-v="${t}"]`); await page.waitForTimeout(450); await page.screenshot({ path: `${SHOT}/${vp.n}-5-telas-${t}.png` }); }
   ok(`${vp.n}: sem botão de zoom`, (await page.$('#zoomBtn')) === null);
-  const ins = await page.$$eval('#insRows tr', l => l.length), sinal = await page.$eval('#orcSinal', e => e.textContent);
-  ok(`${vp.n}: orçamento com insumos e sinal`, ins === 2 && /R\$ [\d.]+,\d{2} · 50%/.test(sinal), sinal);
+  const fotos = await page.$$eval('#app img.view', l => l.map(e => e.dataset.v + ':' + (e.complete && e.naturalWidth > 0)));
+  ok(`${vp.n}: as 4 fotos do app carregam`, fotos.length === 4 && fotos.every(f => f.endsWith(':true')), fotos.join(' '));
   await page.click('#tabs button[data-v="fin"]'); await page.waitForTimeout(500);
   ok(`${vp.n}: aba Financeiro troca a tela`, await page.$eval('.view[data-v="fin"]', e => e.classList.contains('on')));
+  if (vp.n === 'desk') {
+    await page.evaluate(() => scrollTo(0, document.getElementById('founders').offsetTop)); await page.waitForTimeout(700);
+    const nv = await page.evaluate(() => { const n = document.querySelector('.nav .in').getBoundingClientRect(), w = document.querySelector('#founders .wrap'), cs = getComputedStyle(w), r = w.getBoundingClientRect();
+      return { nav: [Math.round(n.left), Math.round(n.right)], conteudo: [Math.round(r.left + parseFloat(cs.paddingLeft)), Math.round(r.right - parseFloat(cs.paddingRight))], cap: document.getElementById('nav').classList.contains('cap') } });
+    ok(`${vp.n}: menu flutuante na largura do conteúdo`, nv.cap && Math.abs(nv.nav[0] - nv.conteudo[0]) <= 1 && Math.abs(nv.nav[1] - nv.conteudo[1]) <= 1, JSON.stringify(nv));
+    await page.screenshot({ path: `${SHOT}/${vp.n}-menu-flutuante.png` });
+  }
   await page.screenshot({ path: `${SHOT}/${vp.n}-5-telas-fin.png` });
 
   // formulário

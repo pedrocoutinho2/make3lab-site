@@ -84,7 +84,7 @@ h2.sec{font-size:clamp(44px,6.4vw,92px);text-transform:uppercase;line-height:.9;
 /* NAV: barra no topo, vira cápsula depois do hero */
 .nav{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));left:0;right:0;z-index:50;pointer-events:none}
 .nav .in{pointer-events:auto;height:var(--nav-h);display:flex;align-items:center;gap:28px;max-width:var(--max);margin:0 auto;padding:0 var(--gut);border:1px solid transparent;border-radius:16px;transition:background-color var(--t-ui),border-color var(--t-ui)}
-.nav.cap .in{max-width:820px;background:rgba(12,33,48,.94);border-color:var(--prussia-700);padding:0 10px 0 20px;height:56px}
+.nav.cap .in{max-width:none;width:calc(min(var(--max),100%) - 2*var(--gut));background:rgba(12,33,48,.94);border-color:var(--prussia-700);padding:0 10px 0 20px;height:56px}
 .nav .wm{width:136px;color:#FFFFFF}
 .nav ul{display:flex;gap:24px;list-style:none;margin:0 0 0 auto;padding:0}
 .nav ul a{color:var(--aco-400);font-size:14px;font-weight:500}
@@ -92,7 +92,7 @@ h2.sec{font-size:clamp(44px,6.4vw,92px);text-transform:uppercase;line-height:.9;
 .nav .prog{position:absolute;left:14px;right:14px;bottom:-1px;height:2px;background:var(--azul-400);transform-origin:0 50%;transform:scaleX(var(--p,0));border-radius:2px;opacity:0;transition:opacity var(--t-ui)}
 .nav.cap .prog{opacity:1}
 .nav .in{position:relative}
-@media (max-width:900px){.nav ul{display:none}.nav .btn{margin-left:auto}.nav .wm{width:118px}.nav.cap .in{margin:0 12px;padding:0 6px 0 14px}}
+@media (max-width:900px){.nav ul{display:none}.nav .btn{margin-left:auto}.nav .wm{width:118px}.nav.cap .in{width:auto;margin:0 12px;padding:0 6px 0 14px}}
 
 /* HERO */
 .hero{position:relative;height:240vh;background:var(--prussia-950)}
@@ -222,6 +222,8 @@ section{position:relative}
 .app .b.s{border:1px solid var(--prussia-700);color:var(--nevoa-200)}
 .view{position:absolute;inset:60px 0 0 0;padding:20px 24px;opacity:0;transform:translateY(8px);transition:opacity var(--t-ui) var(--ease-out),transform var(--t-ui) var(--ease-out);pointer-events:none}
 .view.on{opacity:1;transform:none}
+.app.shots{display:block;background:var(--prussia-950)}
+.app.shots .view{inset:0;padding:0;width:100%;height:100%;object-fit:cover;object-position:left top;transform:none}
 .card{background:var(--prussia-900);border:1px solid var(--prussia-700);border-radius:12px}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .kpi{padding:14px 16px}
@@ -593,173 +595,16 @@ footer .fine a{color:var(--aco-500)}
     <div class="scene" id="scene">
       <div class="device" id="device">
         <div class="frame"><div class="fit" id="fit"><div class="zoomer" id="zoomer">
-          <div class="app" id="app" role="tabpanel" aria-label="Tela de exemplo do sistema">
-            <aside>
-              <div class="brand"><svg viewBox="0 0 723 114" fill="currentColor" aria-hidden="true"><use href="#wmp"/></svg></div>
-              <div class="it"><svg viewBox="0 0 16 16"><path d="M2.5 7.5 8 3l5.5 4.5V13h-11z"/><path d="M6.5 13V9.5h3V13"/></svg>Início</div>
-              <div class="grp">Cadastros</div>
-              <div class="it"><svg viewBox="0 0 16 16"><path d="M8 2l5 3v6l-5 3-5-3V5z"/><path d="M3 5l5 3 5-3M8 8v6"/></svg>Produtos</div>
-              <div class="it"><svg viewBox="0 0 16 16"><rect x="2.5" y="5" width="11" height="8" rx="1"/><path d="M6 5V3.5h4V5M2.5 8.5h11"/></svg>Kits</div>
-              <div class="it"><svg viewBox="0 0 16 16"><circle cx="6" cy="6" r="2.3"/><path d="M2 13c.5-2.3 2-3.4 4-3.4s3.5 1.1 4 3.4"/><path d="M10.5 4a2 2 0 0 1 0 4M12 9.8c1 .5 1.7 1.6 2 3.2"/></svg>Clientes</div>
-              <div class="it"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="1.8"/></svg>Filamentos</div>
-              <div class="it"><svg viewBox="0 0 16 16"><path d="M2.5 5.5 8 3l5.5 2.5v6L8 14l-5.5-2.5z"/><path d="M2.5 5.5 8 8l5.5-2.5M8 8v6"/></svg>Insumos</div>
-              <div class="grp">Comercial</div>
-              <div class="it" data-n="funil"><svg viewBox="0 0 16 16"><path d="M2.5 3h11l-4.2 5v4.5l-2.6 1V8z"/></svg>Funil de vendas</div>
-              <div class="it"><svg viewBox="0 0 16 16"><rect x="3.5" y="2" width="9" height="12" rx="1.2"/><path d="M5.5 4.5h5M5.5 8h.01M8 8h.01M10.5 8h.01M5.5 10.8h.01M8 10.8h.01M10.5 10.8h.01"/></svg>Simulador</div>
-              <div class="it" data-n="orc"><svg viewBox="0 0 16 16"><path d="M4 2h6l3 3v9H4z"/><path d="M6 8h5M6 11h3"/></svg>Orçamentos</div>
-              <div class="it"><svg viewBox="0 0 16 16"><path d="M2.5 2.5h5.2l5.8 5.8-5.2 5.2-5.8-5.8z"/><circle cx="5.3" cy="5.3" r=".9"/></svg>Vendas</div>
-              <div class="it"><svg viewBox="0 0 16 16"><path d="M2.5 6 3.5 2.5h9L13.5 6"/><path d="M2.5 6h11v1a2 2 0 0 1-3.7 1 2 2 0 0 1-3.6 0A2 2 0 0 1 2.5 7z"/><path d="M3.5 9v4.5h9V9"/></svg>Consignação</div>
-              <div class="grp">Operação</div>
-              <div class="it" data-n="prod"><svg viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="9" rx="1"/><path d="M5 14h6M5 6.5h6M5 9h4"/></svg>Fila de produção</div>
-              <div class="it"><svg viewBox="0 0 16 16"><path d="M1.5 4h8v7h-8zM9.5 6.5h3l2 2.5V11h-5"/><circle cx="4.5" cy="12" r="1.3"/><circle cx="11.5" cy="12" r="1.3"/></svg>Entregas</div>
-              <div class="it"><svg viewBox="0 0 16 16"><rect x="2.5" y="3.5" width="11" height="10" rx="1.2"/><path d="M2.5 6.5h11M5.5 2v3M10.5 2v3"/></svg>Calendário</div>
-              <div class="grp">Gestão</div>
-              <div class="it" data-n="fin"><svg viewBox="0 0 16 16"><path d="M2 12l4-4 3 2 5-6"/><path d="M10 4h4v4"/></svg>Financeiro</div>
-              <div class="it"><svg viewBox="0 0 16 16"><path d="M2.5 13.5h11M4.5 11V7.5M8 11V4.5M11.5 11V9"/></svg>Relatórios</div>
-              <div class="grp">Sistema</div>
-              <div class="it"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="2"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.4 3.4l1.4 1.4M11.2 11.2l1.4 1.4M3.4 12.6l1.4-1.4M11.2 4.8l1.4-1.4"/></svg>Configurações</div>
-              <div class="who"><i>AE</i>Ateliê Exemplo</div>
-            </aside>
-            <main>
-              <div class="top"><h4 id="appT">Orçamento ORC-0321</h4><div class="acts"><span class="b s" id="appS">Duplicar</span><span class="b p" id="appP">Enviar ao cliente</span></div></div>
-
-              <div class="view on" data-v="orc">
-                <div class="orc">
-                  <div class="l">
-                    <div class="card fields">
-                      <div class="fld"><div class="lb">Cliente</div><div class="ip">Cliente de exemplo <em>loja de presentes</em></div></div>
-                      <div class="fld"><div class="lb">Prazo de produção</div><div class="ip"><span class="mono">7</span><em>dias úteis</em></div></div>
-                      <div class="fld"><div class="lb">Canal</div><div class="ip">Venda direta <em>0%</em></div></div>
-                    </div>
-                    <div class="card">
-                      <div class="ch"><b>Produtos</b><span>o que o cliente recebe</span></div>
-                      <table class="t">
-                        <thead><tr><th>Produto</th><th class="r">Qtd</th><th class="r">Custo un.</th><th class="r">Preço un.</th><th class="r">Total</th></tr></thead>
-                        <tbody id="orcRows"></tbody>
-                      </table>
-                    </div>
-                    <div class="card">
-                      <div class="ch"><b>Insumos</b><span>o que vai junto com a peça</span></div>
-                      <table class="t">
-                        <thead><tr><th>Insumo</th><th class="r">Qtd</th><th>Cobrança</th><th class="r">Custo un.</th><th class="r">Total</th></tr></thead>
-                        <tbody id="insRows"></tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <div class="card comp" id="compCard">
-                    <div class="k">Total do orçamento</div>
-                    <span class="big num" id="orcTot">R$ 0,00</span>
-                    <div class="bar">
-                      <i data-o="material" style="background:var(--azul-400)"></i><i data-o="energia" style="background:var(--azul-300)"></i><i data-o="maquina" style="background:var(--azul-600)"></i><i data-o="mao" style="background:var(--aco-400)"></i><i data-o="insumos" style="background:var(--aco-600)"></i><i data-o="refugo" class="hatch"></i><i data-o="lucro" style="background:var(--azul-100)"></i>
-                    </div>
-                    <div class="legend">
-                      <div><b style="background:var(--azul-400)"></b>Filamento<span class="num" data-l="material"></span></div>
-                      <div><b style="background:var(--azul-300)"></b>Energia<span class="num" data-l="energia"></span></div>
-                      <div><b style="background:var(--azul-600)"></b>Máquina<span class="num" data-l="maquina"></span></div>
-                      <div><b style="background:var(--aco-400)"></b>Mão de obra<span class="num" data-l="mao"></span></div>
-                      <div><b style="background:var(--aco-600)"></b>Insumos<span class="num" data-l="insumos"></span></div>
-                      <div><b class="hatch"></b><span>Refugo <small class="mono">5%</small></span><span class="num" data-l="refugo"></span></div>
-                      <div><b style="background:var(--azul-100)"></b>Lucro<span class="num" data-l="lucro"></span></div>
-                    </div>
-                    <div class="sinal">
-                      <div class="sr2"><span>Sinal para validar</span><span class="num" id="orcSinal"></span></div>
-                      <div class="sr2 m"><span>Saldo na entrega</span><span class="num" id="orcSaldo"></span></div>
-                      <div class="pg"><span class="pp">Pix</span><span class="pp">Cartão em até 3x</span></div>
-                    </div>
-                    <div class="snapb" id="snapb"><svg width="13" height="13" aria-hidden="true"><use href="#i-lock"/></svg>custo congelado em 09/10 10:14 · filamento a R$ 120,00/kg</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="view" data-v="funil">
-                <div class="kpis k3">
-                  <div class="card kpi"><div class="k">Em negociação</div><span class="num in">R$ 3.418,60</span><div class="s">7 cards</div></div>
-                  <div class="card kpi"><div class="k">Fechado no mês</div><span class="num">R$ 6.842,30</span><div class="s">41 vendas</div></div>
-                  <div class="card kpi"><div class="k">Conversão</div><span class="num">38%</span><div class="s">orçamentos que viraram venda</div></div>
-                </div>
-                <div class="kan fun">
-                  <div class="col"><div class="ch2"><span>Contato</span><span class="num">2</span></div>
-                    <div class="job"><div class="n">Loja de presentes</div><div class="m"><span>Chaveiros ×100</span><span>R$ 890,00</span></div></div>
-                    <div class="job"><div class="n">Buffet infantil</div><div class="m"><span>Lembrancinhas</span><span>a orçar</span></div></div>
-                  </div>
-                  <div class="col"><div class="ch2"><span>Orçamento enviado</span><span class="num">3</span></div>
-                    <div class="job"><div class="n">Cliente de exemplo</div><div class="m"><span>ORC-0321</span><span id="funOrc">R$ 0,00</span></div></div>
-                    <div class="job"><div class="n">Escola de música</div><div class="m"><span>ORC-0319</span><span>R$ 412,00</span></div></div>
-                    <div class="job"><div class="n">Café do bairro</div><div class="m"><span>ORC-0316</span><span class="tag er">vencido</span></div></div>
-                  </div>
-                  <div class="col"><div class="ch2"><span>Negociação</span><span class="num">2</span></div>
-                    <div class="job"><div class="n">Casamento, 120 convidados</div><div class="m"><span>ORC-0318</span><span>R$ 1.140,00</span></div></div>
-                    <div class="job"><div class="n">Pet shop</div><div class="m"><span>ORC-0314</span><span>R$ 286,60</span></div></div>
-                  </div>
-                  <div class="col win"><div class="ch2"><span>Fechado</span><span class="num">2</span></div>
-                    <div class="job"><div class="n">Ateliê vizinho</div><div class="m"><span>VD-0151</span><span class="tag ok">sinal pago</span></div></div>
-                    <div class="job"><div class="n">Loja de decoração</div><div class="m"><span>VD-0150</span><span class="tag ok">paga</span></div></div>
-                  </div>
-                </div>
-                <p class="hint2">Mover para Fechado cria a venda, o a receber e as ordens na fila de produção.</p>
-              </div>
-
-              <div class="view" data-v="prod">
-                <div class="kpis">
-                  <div class="card kpi"><div class="k">Ordens abertas</div><span class="num">9</span><div class="s">de 6 vendas</div></div>
-                  <div class="card kpi"><div class="k">Máquina na fila</div><span class="num">41 h 20 min</span><div class="s">só o que ainda vai imprimir</div></div>
-                  <div class="card kpi"><div class="k">Atrasadas</div><span class="num" style="color:var(--erro)">1</span><div class="s">passaram da data de entrega</div></div>
-                  <div class="card kpi"><div class="k">Prontas</div><span class="num">3</span><div class="s">esperando envio</div></div>
-                </div>
-                <div class="kan">
-                  <div class="col"><div class="ch2"><span>A imprimir</span><span class="num">3</span></div>
-                    <div class="job"><div class="n">Chaveiro com nome ×50</div><div class="m"><span>VD-0151</span><span class="tag at">aguardando arte</span></div></div>
-                    <div class="job"><div class="n">Pião ×30</div><div class="m"><span>VD-0150</span><span>25 h</span></div></div>
-                    <div class="job"><div class="n">Placa com logo ×4</div><div class="m"><span>VD-0149</span><span>19 h</span></div></div>
-                  </div>
-                  <div class="col"><div class="ch2"><span>Imprimindo</span><span class="num">2</span></div>
-                    <div class="job live"><div class="n">Vaso espiral ×12</div><div class="m"><span>A1 · 01</span><span>lote 7/12</span></div><div class="pb"><i style="--w:.58"></i></div></div>
-                    <div class="job live"><div class="n">Cachepô facetado ×2</div><div class="m"><span>A1 · 02</span><span>1 h 12 min</span></div><div class="pb"><i style="--w:.71"></i></div></div>
-                  </div>
-                  <div class="col"><div class="ch2"><span>Pós-processo</span><span class="num">2</span></div>
-                    <div class="job"><div class="n">Luminária de lua</div><div class="m"><span>VD-0147</span><span class="tag at">prazo amanhã</span></div></div>
-                    <div class="job"><div class="n">Cobra articulada ×1</div><div class="m"><span>VD-0146</span><span class="tag er">reimpressão</span></div></div>
-                  </div>
-                  <div class="col"><div class="ch2"><span>Pronto</span><span class="num">3</span></div>
-                    <div class="job"><div class="n">Porta-velas ×3</div><div class="m"><span>CS-0012</span><span>consignado</span></div></div>
-                    <div class="job"><div class="n">Cachepô facetado ×8</div><div class="m"><span>VD-0145</span><span class="tag ok">pronta para entrega</span></div></div>
-                    <div class="job"><div class="n">Pião ×2</div><div class="m"><span>VD-0144</span><span class="tag ok">pronta para entrega</span></div></div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="view" data-v="fin">
-                <div class="subtabs"><span class="on">Dashboard</span><span>Entrada</span><span>Saída</span><span>Previsão</span></div>
-                <div class="kpis">
-                  <div class="card kpi"><div class="k">A receber</div><span class="num in">R$ 1.284,50</span><div class="s">6 em aberto</div></div>
-                  <div class="card kpi"><div class="k">A pagar</div><span class="num">R$ 642,00</span><div class="s">custos fixos e variáveis</div></div>
-                  <div class="card kpi"><div class="k">Resultado de outubro</div><span class="num">R$ 3.924,75</span><div class="s">já com estornos</div></div>
-                  <div class="card kpi"><div class="k">Atrasados</div><span class="num" style="color:var(--erro)">R$ 210,00</span><div class="s">1 acerto de consignado</div></div>
-                </div>
-                <div class="fin">
-                  <div class="card chart"><div class="k">Saldo projetado <span>por semana, a partir do que está em aberto</span></div>
-                    <div class="bars"><div><i style="--h:42%"></i><span>13/10</span></div><div><i style="--h:55%"></i><span>20/10</span></div><div><i style="--h:49%"></i><span>27/10</span></div><div><i style="--h:63%"></i><span>03/11</span></div><div><i style="--h:71%"></i><span>10/11</span></div><div><i style="--h:84%"></i><span>17/11</span></div></div>
-                  </div>
-                  <div class="card">
-                    <table class="t">
-                      <thead><tr><th>Data</th><th>Lançamento</th><th class="r">Valor</th></tr></thead>
-                      <tbody>
-                        <tr><td class="num">09/10</td><td>Sinal VD-0151 · 50% <span class="tag ok">recebido</span></td><td class="r num v-in">R$ 451,50</td></tr>
-                        <tr><td class="num">16/10</td><td>Saldo VD-0151 · na entrega <span class="tag">a receber</span></td><td class="r num">R$ 451,50</td></tr>
-                        <tr><td class="num">08/10</td><td>Estorno VD-0139 · devolução</td><td class="r num v-er">− R$ 180,00</td></tr>
-                        <tr><td class="num">07/10</td><td>Compra de PETG · 3 kg <span class="tag">variável</span></td><td class="r num">− R$ 297,00</td></tr>
-                        <tr><td class="num">05/10</td><td>Energia elétrica <span class="tag">fixo</span></td><td class="r num">− R$ 184,00</td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </main>
+          <div class="app shots" id="app" role="tabpanel" aria-label="Tela real do sistema, em modo demonstração">
+            <img class="view on" data-v="orc" src="/espera/telas/orc-1x.webp" srcset="/espera/telas/orc-1x.webp 1180w, /espera/telas/orc.webp 2360w" sizes="(min-width:1300px) 1180px, 92vw" width="1180" height="720" alt="Orçamento no Make3Lab com produtos, quantidade, preço unitário, insumos e sinal" decoding="async">
+            <img class="view" data-v="funil" src="/espera/telas/funil-1x.webp" srcset="/espera/telas/funil-1x.webp 1180w, /espera/telas/funil.webp 2360w" sizes="(min-width:1300px) 1180px, 92vw" width="1180" height="720" alt="Funil de vendas do Make3Lab com negociações por etapa" loading="lazy" decoding="async">
+            <img class="view" data-v="prod" src="/espera/telas/prod-1x.webp" srcset="/espera/telas/prod-1x.webp 1180w, /espera/telas/prod.webp 2360w" sizes="(min-width:1300px) 1180px, 92vw" width="1180" height="720" alt="Fila de produção do Make3Lab com ordens a imprimir, imprimindo e em pós-processo" loading="lazy" decoding="async">
+            <img class="view" data-v="fin" src="/espera/telas/fin-1x.webp" srcset="/espera/telas/fin-1x.webp 1180w, /espera/telas/fin.webp 2360w" sizes="(min-width:1300px) 1180px, 92vw" width="1180" height="720" alt="Dashboard financeiro do Make3Lab com a receber, a pagar, saldo previsto e vencimentos" loading="lazy" decoding="async">
           </div>
         </div></div></div>
       </div>
     </div>
-    <p class="demo-note">Dados de exemplo. Nenhum cliente real aparece nesta página.</p>
+    <p class="demo-note">Telas reais do sistema, no modo demonstração, com dados de exemplo.</p>
     <div class="mods rv" aria-label="Módulos do sistema">
       <span>Produtos e kits</span><span>Clientes</span><span>Filamentos</span><span>Insumos</span><span>Funil de vendas</span><span>Simulador</span><span>Orçamentos</span><span>Vendas</span><span>Consignação</span><span>Fila de produção</span><span>Entregas</span><span>Calendário</span><span>Financeiro</span><span>Relatórios e metas</span><span>Personalização com aprovação de arte</span><span>Sinal e pagamento parcial</span><span>Importação de 3MF e G-code</span><span>Preço por canal</span><span>Usuários por convite</span>
       <span class="soon">Integração direta com marketplace, depois</span><span class="soon">Emissão fiscal, depois</span>
@@ -1362,47 +1207,10 @@ function bootHero(){
 if (D.readyState === 'complete') setTimeout(bootHero, 60);
 else addEventListener('load', function(){ setTimeout(bootHero, 60) });
 
-/* orçamento de exemplo das telas: preço unitário pelo motor, venda direta */
-(function(){
-  var rows = [
-    [PECAS.vaso, 12, null],
-    [PECAS.piao, 30, null],
-    [{n:'Chaveiro com nome, 2 cores', g:7, min:32}, 50, ['nome em cada peça', 'aguardando arte']],
-    [{n:'Placa de mesa com logo', g:96, min:285}, 4, ['logo e cores da marca', 'arte aprovada']]
-  ];
-  var ins = [ ['Argola de chaveiro', 50, true, 18, 100], ['Embalagem kraft P', 1, false, 120, 0] ]; // centavos de custo, margem %
-  var tot = 0, comp = {material:0, energia:0, maquina:0, mao:0, insumos:0, refugo:0, lucro:0};
-  $('#orcRows').innerHTML = rows.map(function(x){
-    var P = x[0], q = x[1], r = MOTOR.precificar(withP({gramas:P.g, minutos:P.min, origem:'fatiador', taxaCanalPct:0, taxaFixa:0}));
-    tot += r.preco*q;
-    comp.material += r.material*q; comp.energia += r.energia*q; comp.maquina += r.maquina*q; comp.mao += (r.setup + r.pos)*q;
-    comp.insumos += r.insumos*q; comp.refugo += r.refugo*q; comp.lucro += r.lucro*q;
-    var pers = x[2] ? '<span class="pers">' + x[2][0] + '</span>' : '';
-    var tg = x[2] ? '<span class="tag ' + (x[2][1] === 'arte aprovada' ? 'ok' : 'at') + '">' + x[2][1] + '</span>' : '';
-    return '<tr><td>' + P.n + tg + pers + '</td><td class="r num">' + q + '</td><td class="r num">' + brl(r.custo) + '</td><td class="r num">' + brl(r.preco) + '</td><td class="r num">' + brl(r.preco*q) + '</td></tr>';
-  }).join('');
-  $('#insRows').innerHTML = ins.map(function(x){
-    var custo = x[3], q = x[1], cobra = x[2], preco = Math.round(custo*(1 + x[4]/100));
-    comp.insumos += custo*q;
-    if (cobra){ tot += preco*q; comp.lucro += (preco - custo)*q }
-    return '<tr><td>' + x[0] + '</td><td class="r num">' + q + '</td><td>' + (cobra ? '<span class="tag az">cobra do cliente</span>' : '<span class="tag">custo do pedido</span>') + '</td><td class="r num">' + brl(custo) + '</td><td class="r num">' + brl((cobra ? preco : custo)*q) + '</td></tr>';
-  }).join('');
-  /* o custo do insumo que não é cobrado sai do lucro */
-  ins.forEach(function(x){ if (!x[2]) comp.lucro -= x[3]*x[1] });
-  var sinal = Math.round(tot/2);
-  $('#orcTot').textContent = brl(tot);
-  $('#orcSinal').textContent = brl(sinal) + ' · 50%';
-  $('#orcSaldo').textContent = brl(tot - sinal);
-  $('#funOrc').textContent = brl(tot);
-  $$('#compCard .bar i').forEach(function(i){ i.style.flex = String(Math.max(0, comp[i.dataset.o])) });
-  $$('#compCard [data-l]').forEach(function(e){ e.textContent = brl(comp[e.dataset.l]) });
-})();
-
 /* ============ TELAS ============ */
 var fit = $('#fit'), app = $('#app'), device = $('#device'), scene = $('#scene'), tabs = $('#tabs'), zoomer = $('#zoomer');
 var appScale = 1;
 function fitApp(){ appScale = fit.clientWidth/1180; app.style.transform = 'scale(' + appScale + ')' }
-var HEAD = {orc:['Orçamento ORC-0321','Duplicar','Enviar ao cliente'], funil:['Funil de vendas','Colunas','Nova negociação'], prod:['Fila de produção','Tentativas','Novo pedido'], fin:['Financeiro','Exportar','Novo lançamento']};
 var ORDER = ['orc','funil','prod','fin'], curTab = 'orc', autoTab = !RM, tabAnim = null, telasVis = false;
 var tabBtns = $$('button', tabs);
 function setTab(v, focus){
@@ -1410,8 +1218,6 @@ function setTab(v, focus){
   tabBtns.forEach(function(b){ var on = b.dataset.v === v; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; if (on && focus) b.focus() });
   pillTo(tabs, $('button[data-v="'+v+'"]', tabs));
   $$('.view', app).forEach(function(el){ el.classList.toggle('on', el.dataset.v === v) });
-  $$('aside .it', app).forEach(function(el){ el.classList.toggle('on', el.dataset.n === v) });
-  $('#appT').textContent = HEAD[v][0]; $('#appS').textContent = HEAD[v][1]; $('#appP').textContent = HEAD[v][2];
   runTabTimer();
 }
 function stopAuto(){ autoTab = false; if (tabAnim){ tabAnim.cancel(); tabAnim = null } $$('.tp', tabs).forEach(function(x){ x.style.transform = 'scaleX(0)' }) }
