@@ -4,12 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Make3Lab · Lista de espera e 10 vagas Founders</title>
-<meta name="description" content="Gestão de produção para impressão 3D FDM. Entre na lista de espera do Make3Lab e concorra a uma das 10 vagas Founders: 6 meses grátis e depois R$ 19,90 por mês, para sempre.">
+<meta name="description" content="Gestão de produção para impressão 3D FDM. Entre na lista de espera do Make3Lab e concorra a uma das 10 vagas Founders: 6 meses grátis e depois R$ 19,90 por mês no plano de entrada.">
+<link rel="canonical" href="https://make3lab.com.br/founders/">
 <meta name="theme-color" content="#061620">
 <meta property="og:title" content="Make3Lab · Lista de espera">
 <meta property="og:description" content="A conta da sua impressão 3D, fechada até o centavo. 10 vagas Founders com 6 meses grátis.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://make3lab.com.br/espera">
+<meta property="og:url" content="https://make3lab.com.br/founders/">
 <!-- [CONFIRMAR] favicon definitivo: o símbolo ainda é recorte de autotrace -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23061620'/%3E%3Cg transform='translate(28.7 17) scale(.66)'%3E%3Cpath fill='%2325A1EF' d='M0.00%200.00%20L0.00%20100.00%20L71.00%20100.00%20L71.00%2087.73%20L61.66%2087.73%20L52.27%2087.73%20L45.64%2086.74%20L40.33%2084.86%20L36.57%2082.32%20L34.59%2080.33%20L31.71%2075.80%20L29.94%2069.28%20L29.72%2062.54%20L30.50%2061.99%20L47.96%2062.10%20L48.62%2062.87%20L48.95%2066.74%20L49.83%2069.06%20L52.38%2071.49%20L55.25%2072.38%20L59.45%2072.49%20L62.65%2071.60%20L64.31%2070.72%20L66.96%2067.73%20L67.85%2065.08%20L67.73%2060.88%20L66.96%2059.01%20L65.64%2057.68%20L64.42%2056.91%20L61.88%2056.35%20L58.45%2056.02%20L52.60%2056.13%20L52.04%2055.58%20L52.04%2043.87%20L52.49%2043.43%20L59.56%2043.20%20L62.10%2042.43%20L64.20%2040.88%20L65.19%2039.12%20L65.19%2032.49%20L64.31%2030.39%20L62.76%2028.62%20L61.33%2027.62%20L58.34%2026.74%20L55.25%2026.96%20L53.37%2027.73%20L51.16%2029.61%20L49.72%2031.93%20L48.95%2035.36%20L49.06%2037.79%20L48.29%2038.23%20L31.05%2038.23%20L30.28%2037.68%20L30.83%2029.28%20L31.49%2027.73%20L31.71%2025.75%20L33.59%2021.22%20L37.68%2016.13%20L41.33%2013.70%20L46.41%2011.71%20L52.60%2010.72%20L61.55%2010.72%20L71.00%2010.72%20L71.00%200.00Z'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -97,7 +98,6 @@ h2.sec{font-size:clamp(44px,6.4vw,92px);text-transform:uppercase;line-height:.9;
 /* HERO */
 .hero{position:relative;height:240vh;background:var(--prussia-950)}
 .hero .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
-.hero .grid-bg{position:absolute;inset:-40px;background:var(--malha);-webkit-mask:radial-gradient(ellipse 70% 70% at 62% 55%,#000 30%,transparent 78%);mask:radial-gradient(ellipse 70% 70% at 62% 55%,#000 30%,transparent 78%);pointer-events:none;transform:translate3d(var(--px,0px),var(--py,0px),0)}
 #gl{position:absolute;inset:0;width:100%;height:100%;touch-action:pan-y}
 #gl.grab{cursor:grab}
 #gl.grab:active{cursor:grabbing}
@@ -184,7 +184,6 @@ section{position:relative}
 
 /* TELAS */
 .telas{background:var(--prussia-950);overflow:hidden}
-.telas::before{content:"";position:absolute;inset:0;background:var(--malha);-webkit-mask:linear-gradient(180deg,transparent,#000 30%,#000 70%,transparent);mask:linear-gradient(180deg,transparent,#000 30%,#000 70%,transparent);opacity:.6;pointer-events:none}
 .tabs-row{display:flex;justify-content:center;gap:12px;align-items:center;margin:0 auto 28px;flex-wrap:wrap}
 .tabs-row .seg{overflow-x:auto;scrollbar-width:none}
 .tabs-row .seg::-webkit-scrollbar{display:none}
@@ -199,6 +198,12 @@ section{position:relative}
 .zoom-row{display:flex;justify-content:center;gap:12px;align-items:center;margin-top:22px;flex-wrap:wrap}
 .zoom-cap{font-size:14px;color:var(--aco-400);max-width:52ch;text-align:center;min-height:22px}
 .demo-note{text-align:center;margin-top:10px;font-size:13px;color:var(--aco-400)}
+.conta{margin-top:44px;border:1px solid var(--prussia-700);border-radius:16px;background:var(--prussia-900);padding:26px 28px}
+.conta h3{margin:0 0 18px;font-size:18px;font-weight:600;color:var(--nevoa-100)}
+.conta-g{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.conta-g .k{display:block;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--azul-300);margin-bottom:8px}
+.conta-g p{margin:0;font-size:15px;line-height:1.55;color:var(--nevoa-200)}
+@media (max-width:900px){.conta{padding:22px 20px}.conta-g{grid-template-columns:1fr;gap:18px}}
 .mods{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:36px}
 .mods span{font-size:13px;padding:7px 12px;border-radius:99px;border:1px solid var(--prussia-700);color:var(--aco-400);background:var(--prussia-900)}
 .mods span.soon{border-style:dashed;color:var(--aco-400);background:transparent}
@@ -330,7 +335,6 @@ table.t td .pers{display:block;font-size:10.5px;color:var(--aco-500);margin-top:
 
 /* FOUNDERS */
 .fnd{background:var(--prussia-900);border-top:1px solid var(--prussia-700);border-bottom:1px solid var(--prussia-700);overflow:hidden}
-.fnd::before{content:"";position:absolute;inset:0;background:var(--malha);opacity:.8;pointer-events:none;-webkit-mask:radial-gradient(ellipse 60% 80% at 20% 50%,#000,transparent 75%);mask:radial-gradient(ellipse 60% 80% at 20% 50%,#000,transparent 75%)}
 .fg2{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(32px,6vw,96px);align-items:center;position:relative}
 .ten{font-family:var(--f-dado);font-size:clamp(170px,26vw,360px);line-height:.78;color:var(--azul-400);letter-spacing:-.08em}
 .ten-l{display:block;font:800 clamp(26px,2.6vw,36px)/1 var(--f-titulo);color:var(--nevoa-100);text-transform:uppercase;margin-top:28px}
@@ -374,6 +378,7 @@ table.t td .pers{display:block;font-size:10.5px;color:var(--aco-500);margin-top:
 .form-card h3{font-size:clamp(30px,3vw,40px);text-transform:uppercase;line-height:.95}
 .form-card .intro{font-size:15px;color:var(--aco-400);margin:12px 0 26px;max-width:46ch}
 .fm{display:grid;gap:20px}
+.fd-extra{display:grid;gap:20px}
 .fm .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .fm .f{min-width:0}
 .fm .f>label,.fm .f>.lb2{display:block;font-size:14px;font-weight:500;color:var(--nevoa-200);margin-bottom:8px}
@@ -532,8 +537,7 @@ footer .fine a{color:var(--aco-500)}
 <!-- 1. HERO -->
 <section class="hero" id="hero" aria-label="Apresentação">
   <div class="stage">
-    <div class="grid-bg" id="gridbg" aria-hidden="true"></div>
-    <canvas id="gl" aria-label="Símbolo do Make3Lab sendo impresso em 3D. Depois da impressão, arraste para girar." role="img"></canvas>
+    <canvas id="gl" aria-label="Símbolo do Make3Lab sendo impresso em 3D. Depois da impressão, arraste ou use as setas do teclado para girar." role="img"></canvas>
     <svg class="fallback3d" id="fb3d" viewBox="0 0 71 100" aria-hidden="true"><use href="#symp" fill="var(--azul-500)"/></svg>
     <div class="copy">
       <div class="wrap">
@@ -596,15 +600,23 @@ footer .fine a{color:var(--aco-500)}
       <div class="device" id="device">
         <div class="frame"><div class="fit" id="fit"><div class="zoomer" id="zoomer">
           <div class="app shots" id="app" role="tabpanel" aria-label="Tela real do sistema, em modo demonstração">
-            <img class="view on" data-v="orc" src="/espera/telas/orc-1x.webp" srcset="/espera/telas/orc-1x.webp 1180w, /espera/telas/orc.webp 2360w" sizes="(min-width:1300px) 1180px, 92vw" width="1180" height="720" alt="Orçamento no Make3Lab com produtos, quantidade, preço unitário, insumos e sinal" decoding="async">
-            <img class="view" data-v="funil" src="/espera/telas/funil-1x.webp" srcset="/espera/telas/funil-1x.webp 1180w, /espera/telas/funil.webp 2360w" sizes="(min-width:1300px) 1180px, 92vw" width="1180" height="720" alt="Funil de vendas do Make3Lab com negociações por etapa" loading="lazy" decoding="async">
-            <img class="view" data-v="prod" src="/espera/telas/prod-1x.webp" srcset="/espera/telas/prod-1x.webp 1180w, /espera/telas/prod.webp 2360w" sizes="(min-width:1300px) 1180px, 92vw" width="1180" height="720" alt="Fila de produção do Make3Lab com ordens a imprimir, imprimindo e em pós-processo" loading="lazy" decoding="async">
-            <img class="view" data-v="fin" src="/espera/telas/fin-1x.webp" srcset="/espera/telas/fin-1x.webp 1180w, /espera/telas/fin.webp 2360w" sizes="(min-width:1300px) 1180px, 92vw" width="1180" height="720" alt="Dashboard financeiro do Make3Lab com a receber, a pagar, saldo previsto e vencimentos" loading="lazy" decoding="async">
+            <img class="view on" data-v="orc" src="/founders/telas/orc-1x.webp" srcset="/founders/telas/orc-1x.webp 1180w, /founders/telas/orc.webp 2360w" sizes="(min-width:1300px) 1180px, 92vw" width="1180" height="720" alt="Orçamento no Make3Lab com produtos, quantidade, preço unitário, insumos e sinal" decoding="async">
+            <img class="view" data-v="funil" src="/founders/telas/funil-1x.webp" srcset="/founders/telas/funil-1x.webp 1180w, /founders/telas/funil.webp 2360w" sizes="(min-width:1300px) 1180px, 92vw" width="1180" height="720" alt="Funil de vendas do Make3Lab com negociações por etapa" loading="lazy" decoding="async">
+            <img class="view" data-v="prod" src="/founders/telas/prod-1x.webp" srcset="/founders/telas/prod-1x.webp 1180w, /founders/telas/prod.webp 2360w" sizes="(min-width:1300px) 1180px, 92vw" width="1180" height="720" alt="Fila de produção do Make3Lab com ordens a imprimir, imprimindo e em pós-processo" loading="lazy" decoding="async">
+            <img class="view" data-v="fin" src="/founders/telas/fin-1x.webp" srcset="/founders/telas/fin-1x.webp 1180w, /founders/telas/fin.webp 2360w" sizes="(min-width:1300px) 1180px, 92vw" width="1180" height="720" alt="Dashboard financeiro do Make3Lab com a receber, a pagar, saldo previsto e vencimentos" loading="lazy" decoding="async">
           </div>
         </div></div></div>
       </div>
     </div>
     <p class="demo-note">Telas reais do sistema, no modo demonstração, com dados de exemplo.</p>
+    <div class="conta rv" aria-labelledby="conta-t">
+      <h3 id="conta-t">O que entra no preço de cada peça</h3>
+      <div class="conta-g">
+        <div><span class="k">Do arquivo</span><p>Peso e tempo de impressão, lidos do 3MF ou do G-code do fatiador. Se a peça não veio de arquivo, você digita.</p></div>
+        <div><span class="k">Do seu cadastro, uma vez</span><p>Preço do filamento por quilo, consumo e vida útil de cada impressora, tarifa de energia, hora de mão de obra, embalagem, taxa de cada canal de venda e imposto.</p></div>
+        <div><span class="k">O sistema soma</span><p>Material com perda, energia, desgaste da máquina, setup e pós-processo, refugo, insumos, taxa do canal e imposto. O orçamento mostra o custo e o lucro antes de você mandar para o cliente.</p></div>
+      </div>
+    </div>
     <div class="mods rv" aria-label="Módulos do sistema">
       <span>Produtos e kits</span><span>Clientes</span><span>Filamentos</span><span>Insumos</span><span>Funil de vendas</span><span>Simulador</span><span>Orçamentos</span><span>Vendas</span><span>Consignação</span><span>Fila de produção</span><span>Entregas</span><span>Calendário</span><span>Financeiro</span><span>Relatórios e metas</span><span>Personalização com aprovação de arte</span><span>Sinal e pagamento parcial</span><span>Importação de 3MF e G-code</span><span>Preço por canal</span><span>Usuários por convite</span>
       <span class="soon">Integração direta com marketplace, depois</span><span class="soon">Emissão fiscal, depois</span>
@@ -626,10 +638,11 @@ footer .fine a{color:var(--aco-500)}
       <ul class="terms rv">
         <!-- [CONFIRMAR] "sem cartão" vinha do desenho de 30 dias; confirmar que vale para os 6 meses -->
         <li><span>Grátis</span><span><span class="num">6</span> meses, sem cartão</span></li>
-        <li><span>Depois</span><span><span class="num">R$ 19,90</span> por mês, para sempre<small>Enquanto a assinatura estiver ativa, no plano de entrada. Nos planos maiores, o Founder também tem condição especial.</small></span></li>
+        <li><span>Depois</span><span><span class="num">R$ 19,90</span> por mês no plano de entrada<small>O preço não sobe enquanto a assinatura estiver ativa. Nos planos maiores, o Founder também tem condição especial.</small></span></li>
         <li><span>Entrada</span><span>Uma call de <span class="num">30</span> minutos para montar o sistema com as suas máquinas e os seus filamentos</span></li>
         <li><span>Acompanhamento</span><span>Uma conversa de <span class="num">15</span> minutos a cada <span class="num">15</span> dias até o 3º mês, depois uma por mês no 4º e no 5º</span></li>
         <li><span>Para quem</span><span>Quem já imprime e vende, mesmo que pouco, e quer controlar os custos e vender com mais margem</span></li>
+        <li><span>Seleção</span><span>A gente lê cada cadastro e chama no WhatsApp quem se encaixa. Não é por ordem de chegada</span></li>
       </ul>
     </div>
 
@@ -637,7 +650,7 @@ footer .fine a{color:var(--aco-500)}
       <form class="fm" id="fm" novalidate>
         <div>
           <h3>Entrar na lista</h3>
-          <p class="intro">Abertura por convite. Quem se encaixa no perfil Founder é chamado no WhatsApp antes de todo mundo.</p>
+          <p class="intro">Deixe nome e e-mail para receber o aviso quando o Make3Lab abrir. Para concorrer a uma das 10 vagas Founders, marque a opção no fim do formulário.</p>
         </div>
 
         <div class="f" data-f="nome">
@@ -686,6 +699,12 @@ footer .fine a{color:var(--aco-500)}
           <div class="inp"><input id="qual" type="text" maxlength="80"></div>
         </div>
 
+        <div class="comp">
+          <label class="ck"><input id="founder" type="checkbox" aria-controls="fdWrap"><span><b>Quero concorrer a uma das 10 vagas Founders</b></span></label>
+          <p class="det">Ao marcar, você topa uma call de 30 minutos na entrada, uma conversa de 15 minutos a cada 15 dias nos 3 primeiros meses e uma por mês no 4º e no 5º. Em troca, usa 6 meses de graça e depois paga R$ 19,90 por mês no plano de entrada, enquanto a assinatura estiver ativa.</p>
+        </div>
+
+        <div class="fd-extra hide" id="fdWrap">
         <div class="f" data-f="marcas">
           <span class="lb2" id="l-marcas">Marcas das suas impressoras <small>escolha ou digite</small></span>
           <div class="tags" data-tags="marcas" data-max="10"></div>
@@ -696,9 +715,6 @@ footer .fine a{color:var(--aco-500)}
           <div class="tags" data-tags="vende" data-max="10"></div>
         </div>
 
-        <div class="comp">
-          <label class="ck"><input id="founder" type="checkbox" checked><span><b>Quero concorrer a uma das 10 vagas Founders</b></span></label>
-          <p class="det">Ao marcar, você topa uma call de 30 minutos na entrada, uma conversa de 15 minutos a cada 15 dias nos 3 primeiros meses e uma por mês no 4º e no 5º. Em troca, 6 meses grátis e depois R$ 19,90 por mês para sempre.</p>
         </div>
 
         <div class="f" data-f="consent">
@@ -1003,7 +1019,7 @@ function updateTicket(p){
 
 /* ============ HERO: CENA 3D ============ */
 var SYM = [[0,1],[0,0],[0.71,0],[0.71,0.1227],[0.6166,0.1227],[0.5227,0.1227],[0.4564,0.1326],[0.4033,0.1514],[0.3657,0.1768],[0.3459,0.1967],[0.3171,0.242],[0.2994,0.3072],[0.2972,0.3746],[0.305,0.3801],[0.4796,0.379],[0.4862,0.3713],[0.4895,0.3326],[0.4983,0.3094],[0.5238,0.2851],[0.5525,0.2762],[0.5945,0.2751],[0.6265,0.284],[0.6431,0.2928],[0.6696,0.3227],[0.6785,0.3492],[0.6773,0.3912],[0.6696,0.4099],[0.6564,0.4232],[0.6442,0.4309],[0.6188,0.4365],[0.5845,0.4398],[0.526,0.4387],[0.5204,0.4442],[0.5204,0.5613],[0.5249,0.5657],[0.5956,0.568],[0.621,0.5757],[0.642,0.5912],[0.6519,0.6088],[0.6519,0.6751],[0.6431,0.6961],[0.6276,0.7138],[0.6133,0.7238],[0.5834,0.7326],[0.5525,0.7304],[0.5337,0.7227],[0.5116,0.7039],[0.4972,0.6807],[0.4895,0.6464],[0.4906,0.6221],[0.4829,0.6177],[0.3105,0.6177],[0.3028,0.6232],[0.3083,0.7072],[0.3149,0.7227],[0.3171,0.7425],[0.3359,0.7878],[0.3768,0.8387],[0.4133,0.863],[0.4641,0.8829],[0.526,0.8928],[0.6155,0.8928],[0.71,0.8928],[0.71,1]];
-var canvas = $('#gl'), fb = $('#fb3d'), gridbg = $('#gridbg'), viewsBox = $('#views');
+var canvas = $('#gl'), fb = $('#fb3d'), viewsBox = $('#views');
 var hTarget = 0, hCur = 0, heroVisible = true, mouseX = 0, mouseY = 0, mX = 0, mY = 0;
 var gl3d = null, viewMode = 'solido', printDone = false;
 var rotY = 0, rotV = 0, dragging = false, lastDragX = 0, releasedAt = 0;
@@ -1168,7 +1184,7 @@ canvas.addEventListener('keydown', function(e){
 addEventListener('pointermove', function(e){
   if (!FINE || RM) return;
   mouseX = e.clientX/innerWidth*2 - 1; mouseY = e.clientY/innerHeight*2 - 1;
-  if (heroVisible){ gridbg.style.setProperty('--px', (-mouseX*10).toFixed(1)+'px'); gridbg.style.setProperty('--py', (-mouseY*8).toFixed(1)+'px'); kick() }
+  if (heroVisible) kick()
 }, {passive:true});
 
 jobs.push(function(){
@@ -1344,7 +1360,7 @@ wa.addEventListener('input', function(){
   wa.value = r;
 });
 var founder = $('#founder'), waOpt = $('#wa-opt');
-function syncFounder(){ waOpt.textContent = founder.checked ? 'obrigatório para Founders' : 'opcional' }
+function syncFounder(){ waOpt.textContent = founder.checked ? 'obrigatório para Founders' : 'opcional'; $('#fdWrap').classList.toggle('hide', !founder.checked) }
 founder.addEventListener('change', function(){ syncFounder(); if (!founder.checked) bad('whatsapp', false) });
 syncFounder();
 
@@ -1383,8 +1399,8 @@ fm.addEventListener('submit', function(e){
     email: $('#email').value.trim(),
     whatsapp: wa.value.trim() || null,
     qtd_impressoras: $('#qtd').value || null,
-    marcas: TAGS.marcas(),
-    vende_onde: TAGS.vende(),
+    marcas: founder.checked ? TAGS.marcas() : [],
+    vende_onde: founder.checked ? TAGS.vende() : [],
     precifica_hoje: prec.value || null,
     precifica_qual: prec.value === 'sistema' ? ($('#qual').value.trim() || null) : null,
     quer_founder: founder.checked,

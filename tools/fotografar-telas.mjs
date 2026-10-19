@@ -1,4 +1,4 @@
-// Fotografa as telas reais do app (modo demonstração) para a seção "O sistema" da /espera.
+// Fotografa as telas reais do app (modo demonstração) para a seção "O sistema" da /founders.
 // Uso: node tools/fotografar-telas.mjs <index.html do app> <pasta de saída>
 // Monta dados de exemplo pela própria interface (orçamentos, vendas, fila, financeiro)
 // e salva orc.png, funil.png, prod.png e fin.png em 1440x879 com densidade 2.

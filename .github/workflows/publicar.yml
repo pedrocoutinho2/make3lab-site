@@ -1,0 +1,63 @@
+# Publica o site no public_html da Hostinger por FTP sempre que o main muda.
+# Só envia o que está em PUBLICAR. A pasta app/ do public_html (sistema em
+# app.make3lab.com.br) nunca entra na lista, e o deploy não apaga nada que
+# ele mesmo não tenha enviado antes.
+#
+# Segredos do repo (Settings > Secrets and variables > Actions):
+#   FTP_HOST, FTP_USER, FTP_PASS
+# Variáveis opcionais (aba Variables):
+#   FTP_DIR       pasta do site vista pela conta FTP. Padrão ./ (conta com raiz no public_html)
+#   FTP_PROTOCOL  ftps ou ftp. Padrão ftps
+
+name: Publicar site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: publicar-site
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PUBLICAR: ".htaccess founders privacidade"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Separar só os arquivos do site
+        run: |
+          mkdir -p _publicar
+          for item in $PUBLICAR; do
+            if [ ! -e "$item" ]; then echo "Faltou $item no repo"; exit 1; fi
+            cp -R "$item" _publicar/
+          done
+          if [ -e _publicar/app ]; then echo "app/ não pode ir para o public_html por aqui"; exit 1; fi
+          find _publicar -type f | sort
+
+      - name: Enviar por FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
+          local-dir: ./_publicar/
+          server-dir: ${{ vars.FTP_DIR || './' }}
+          dangerous-clean-slate: false
+
+      - name: Conferir no ar
+        run: |
+          sleep 5
+          falha=0
+          confere() { c=$(curl -s -o /dev/null -w '%{http_code}' -m 20 "$1"); echo "$1 -> $c"; [ "$c" = "$2" ] || falha=1; }
+          confere https://make3lab.com.br/founders/ 200
+          confere https://make3lab.com.br/founders/telas/orc.webp 200
+          confere https://make3lab.com.br/privacidade/ 200
+          confere https://make3lab.com.br/.htaccess 403
+          confere https://app.make3lab.com.br/ 200
+          exit $falha

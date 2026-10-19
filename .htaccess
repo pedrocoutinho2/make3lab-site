@@ -1,4 +1,4 @@
-# make3lab.com.br · public_html/.htaccess · 17/10/2026
+# make3lab.com.br · public_html/.htaccess · 19/10/2026
 # Vale só para o domínio principal. app.make3lab.com.br mora em public_html/app
 # e fica de fora por causa da condição de host.
 
@@ -16,7 +16,11 @@ RewriteRule ^(.*)$ https://make3lab.com.br/$1 [R=301,L]
 
 # enquanto o site completo não sobe, a raiz leva para a lista de espera (302, temporário)
 RewriteCond %{HTTP_HOST} ^make3lab\.com\.br$ [NC]
-RewriteRule ^$ /espera/ [R=302,L]
+RewriteRule ^$ /founders/ [R=302,L]
+
+# endereço antigo da lista (17 a 19/10/2026) continua funcionando
+RewriteCond %{HTTP_HOST} ^make3lab\.com\.br$ [NC]
+RewriteRule ^espera(/.*)?$ /founders/ [R=301,L]
 
 # make3lab.com.br/app leva para o sistema
 RewriteCond %{HTTP_HOST} ^make3lab\.com\.br$ [NC]
